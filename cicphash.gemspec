@@ -10,5 +10,6 @@ spec = Gem::Specification.new do |s|
   s.require_path = "."
   s.test_files = Dir["test/test_cicphash.rb"]
   s.has_rdoc = true
+  s.rubyforge_project = 'cicphash'
 end
 
