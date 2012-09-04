@@ -58,13 +58,11 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal 2, @h[1]
     assert_equal 2, @h[:'1']
     assert_equal 2, @h['1']
-    assert_equal 2, @h[[1]]
     @h['a'] = 3
     assert_equal 3, @h['a']
     assert_equal 3, @h['A']
     assert_equal 3, @h[:a]
     assert_equal 3, @h[:A]
-    assert_equal 3, @h[[:A]]
     @h['AB'] = 5
     assert_equal 5, @h['ab']
     assert_equal 5, @h['AB']
@@ -74,18 +72,10 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal 5, @h[:AB]
     assert_equal 5, @h[:aB]
     assert_equal 5, @h[:Ab]
-    assert_equal 5, @h[[:ab]]
-    @h[[['A'],[:b],[[['cD']]]]] = 6
-    assert_equal 6, @h['abcd']
-    assert_equal 6, @h['ABCD']
-    assert_equal 6, @h[:AbCd]
-    assert_equal 6, @h[:aBcD]
-    assert_equal 6, @h[[[:A],['b'],:C,[[['d']]]]]
     @h.store(7, 8)
     assert_equal 8, @h[7]
     assert_equal 8, @h[:'7']
     assert_equal 8, @h['7']
-    assert_equal 8, @h[[7]]
   end
   
   def test_clear
@@ -217,8 +207,8 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal 6, @h.fetch(2, 3){|k| k*3}
     assert_equal 1, @fh.fetch(:ab)
     assert_equal 2, @fh.fetch(:CD, 3)
-    assert_equal 4, @fh.fetch([3], 3){8}
-    assert_equal 4, @fh.fetch([3], 3){|k| k*3}
+    assert_equal 4, @fh.fetch("3", 3){8}
+    assert_equal 4, @fh.fetch("3", 3){|k| k*3}
     assert_raises(IndexError){CICPHash.new{34}.fetch(1)}
   end
   
@@ -230,7 +220,7 @@ class CICPHashTest < Test::Unit::TestCase
       assert @fh.send(meth,3)
       assert @fh.send(meth,:ab)
       assert @fh.send(meth,'CD')
-      assert @fh.send(meth,[[[3]]])
+      assert @fh.send(meth,'3')
       assert !@fh.send(meth,1)
     end
   end
@@ -315,12 +305,12 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal Hash[:ab,2], @h
     assert_equal Hash['AB',2], @h.update({'AB'=>2})
     assert_equal Hash['AB',2], @h
-    assert_equal Hash[[:a,:B],3,4,5], @h.update([:a,:B]=>3, 4=>5) do |k,ov,nv| 
-      asset_equal [:a,:B], k
+    assert_equal Hash[:aB,3,4,5], @h.update(:aB=>3, 4=>5) do |k,ov,nv| 
+      asset_equal :aB, k
       asset_equal 2, ov
       asset_equal 3, nv
     end
-    assert_equal Hash[[:a,:B],3,4,5], @h
+    assert_equal Hash[:aB,3,4,5], @h
   end
   
   def test_rehash
@@ -352,7 +342,7 @@ class CICPHashTest < Test::Unit::TestCase
   def test_select
     assert_equal [], @h.select{true}
     assert_equal [], @h.select{false}
-    assert_equal [[3,4], ['AB',1], [:cd,2]], @fh.select{true}.sort_by{|x| x.to_s}
+    assert_equal [[3, 4], ["AB", 1], [:cd, 2]], @fh.select{true}.sort_by{|k,v| k.to_s}
     assert_equal [], @fh.select{false}
     assert_equal [[:cd,2]], @fh.select{|k,v| k.is_a?(Symbol)}
     assert_equal [[3,4]], @fh.select{|k,v| v == 4}
@@ -382,12 +372,12 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal [], @h.sort
     assert_equal [], @h.sort{|a,b| a.to_s<=>b.to_s}
     assert_equal [['AB',1], ['CD',4], ['EF',2]], CICPHash['CD',4,'AB',1,'EF',2].sort
-    assert_equal [[3,4], ['AB',1], [:cd,2]], @fh.sort{|a,b| a.to_s<=>b.to_s}
+    assert_equal [[3,4], ['AB',1], [:cd,2]], @fh.sort{|(ak,av),(bk,bv)| ak.to_s<=>bk.to_s}
   end
   
   def test_to_a
     assert_equal [], @h.to_a
-    assert_equal [[3,4], ['AB',1], [:cd,2]], @fh.to_a.sort{|a,b| a.to_s<=>b.to_s}
+    assert_equal [[3,4], ['AB',1], [:cd,2]], @fh.to_a.sort_by{|k,v| k.to_s}
   end
   
   def test_to_hash
@@ -408,6 +398,61 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal [1], @fh.values_at(:ab)
     assert_equal [2, 1], @fh.values_at('CD', :ab)
     assert_equal [2, nil, 1], @fh.values_at('CD', 32, :ab)
-    assert_equal [4, 2, nil, 1], @fh.values_at([[[3]],''], 'CD', 32, :ab)
+    assert_equal [4, 2, nil, 1], @fh.values_at('3', 'CD', 32, :ab)
+  end
+
+  if RUBY_VERSION >= '1.9'
+    def test_assoc
+      assert_equal nil, @h.assoc(1)
+      assert_equal ['AB', 1], @fh.assoc(:Ab)
+      assert_equal [:cd, 2], @fh.assoc('CD')
+      assert_equal nil, @fh.assoc(4)
+      assert_equal [3, 4], @fh.assoc('3')
+    end
+
+    def test_default_proc=
+      @h.default_proc = proc{|h, k| k * 2}
+      assert_equal 'aa', @h['a']
+      @h[:a] = 2
+      assert_equal 2, @h['a']
+    end
+
+    def test_flatten
+      assert_equal [], @h.flatten
+      assert_equal ['AB', 1, :cd, 2, 3, 4], @fh.flatten
+      @fh[:X] = [5, 6]
+      assert_equal ['AB', 1, :cd, 2, 3, 4, :X, [5, 6]], @fh.flatten
+      assert_equal ['AB', 1, :cd, 2, 3, 4, :X, 5, 6], @fh.flatten(2)
+    end
+
+    def test_keep_if
+      assert_equal @h, @h.keep_if{|k, v| true}
+      assert_equal @fh, @fh.keep_if{|k, v| true}
+      assert_equal @h, @fh.dup.keep_if{|k, v| false}
+      assert_equal CICPHash["AB"=>1], @fh.keep_if{|k, v| k == "AB"}
+    end
+
+    def test_key
+      assert_equal nil, @h.index(1)
+      assert_equal 'AB', @fh.index(1)
+      assert_equal :cd, @fh.index(2)
+      assert_equal nil, @fh.index(3)
+      assert_equal 3, @fh.index(4)
+    end
+
+    def test_rassoc
+      assert_equal nil, @h.rassoc(1)
+      assert_equal ['AB', 1], @fh.rassoc(1)
+      assert_equal [:cd, 2], @fh.rassoc(2)
+      assert_equal nil, @fh.rassoc(3)
+      assert_equal [3, 4], @fh.rassoc(4)
+    end
+
+    def test_select!
+      assert_equal nil, @h.select!{|k, v| true}
+      assert_equal nil, @fh.select!{|k, v| true}
+      assert_equal @h, @fh.dup.select!{|k, v| false}
+      assert_equal CICPHash["AB"=>1], @fh.select!{|k, v| k == "AB"}
+    end
   end
 end

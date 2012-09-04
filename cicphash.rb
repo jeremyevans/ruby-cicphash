@@ -2,9 +2,8 @@
 #
 # * RDoc: http://cicphash.rubyforge.org
 # * Source: http://github.com/jeremyevans/ruby-cicphash
-# * Project: http://rubyforge.org/projects/cicphash/
 #
-# Copyright (c) 2007 Jeremy Evans
+# Copyright (c) 2007, 2012 Jeremy Evans
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +31,7 @@
 # converted to strings would be equal or differing only in case.
 #
 # For example, all of the following keys would be considered equalivalent:
-# 'ab', 'Ab', 'AB', 'aB', :ab, :Ab, :AB, :aB, ['A', :b], [nil, :A, nil, 'b'].
+# 'ab', 'Ab', 'AB', 'aB', :ab, :Ab, :AB, :aB
 #
 # CICPHash uses a last match wins policy.  If an key-value pair is added to
 # a CICPHash and a case insensitive variant of the key is already in the hash
@@ -183,8 +182,15 @@ class CICPHash
   end
   alias value? has_value?
   
-  def index(value)
-    @name_hash[@hash.index(value)]
+  if RUBY_VERSION >= '1.9'
+    def key(value)
+      @name_hash[@hash.key(value)]
+    end
+    alias index key
+  else
+    def index(value)
+      @name_hash[@hash.index(value)]
+    end
   end
   
   def inspect
@@ -300,9 +306,59 @@ class CICPHash
   end
   alias indexes values_at
   alias indices values_at
+
+  if RUBY_VERSION >= '1.9'
+    def assoc(obj)
+      obj = convert_key(obj)
+      each do |k, v|
+        if convert_key(k) == obj
+          return [k, v]
+        end
+      end
+      nil
+    end
+
+    attr_writer :default_proc
+
+    def flatten(*a)
+      if a.empty?
+        to_a.flatten(1)
+      else
+        to_a.flatten(*a)
+      end
+    end
+
+    def keep_if(&block)
+      to_a.each do |k, v|
+        delete(k) unless yield(k, v)
+      end
+      self
+    end
+
+    def rassoc(obj)
+      each do |k, v|
+        if v == obj
+          return [k, v]
+        end
+      end
+      nil
+    end
+
+    def select!(&block)
+      mod = false
+      to_a.each do |k, v|
+        unless yield(k, v)
+          mod = true
+          delete(k)
+        end
+      end
+      self if mod
+    end
+  end
   
   private
-    def convert_key(key)
-      key.to_s.downcase
-    end
+
+  def convert_key(key)
+    key.to_s.downcase
+  end
 end
