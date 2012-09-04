@@ -103,6 +103,13 @@ class CICPHash
     @hash.clear
   end
   
+  def clone
+    s = super
+    s.instance_variable_set(:@hash, @hash.clone)
+    s.instance_variable_set(:@name_hash, @name_hash.clone)
+    s
+  end
+  
   def default
     @default
   end
@@ -125,6 +132,13 @@ class CICPHash
     hash = CICPHash.new
     each{|key, value| block.call(key, value) ? delete(key) : (hash[key] = value)}
     hash
+  end
+
+  def dup
+    s = super
+    s.instance_variable_set(:@hash, @hash.dup)
+    s.instance_variable_set(:@name_hash, @name_hash.dup)
+    s
   end
   
   def each

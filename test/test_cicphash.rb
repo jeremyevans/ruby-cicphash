@@ -150,6 +150,17 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal 0, @fh.length
     assert_equal Hash[], @fh
   end
+
+  def test_dup_and_clone
+    def @h.foo; 1; end
+    h2 = @h.dup
+    h3 = @h.clone
+    h2[1] = 2
+    h3[1] = 2
+    assert_equal CICPHash[], @h
+    assert_raises NoMethodError do h2.foo end
+    assert_equal 1, h3.foo
+  end
   
   def test_each
     i = 0
