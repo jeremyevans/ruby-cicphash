@@ -1,5 +1,6 @@
 #!/usr/local/bin/ruby
 
+$: << File.dirname(File.dirname(File.expand_path(__FILE__)))
 require 'cicphash'
 require 'test/unit'
 
