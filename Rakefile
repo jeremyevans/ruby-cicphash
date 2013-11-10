@@ -3,6 +3,15 @@ require 'rake/clean'
 
 RDOC_DEFAULT_OPTS = ["--quiet", "--line-numbers", "--inline-source", '--title', 'cicphash: Case Insensitive Case Preserving Hash']
 
+begin
+  gem 'rdoc', '= 3.12.2'
+  gem 'hanna-nouveau'
+  RDOC_DEFAULT_OPTS.concat(['-f', 'hanna'])
+  true
+rescue Gem::LoadError
+  false
+end
+
 rdoc_task_class = begin
   require "rdoc/task"
   RDOC_DEFAULT_OPTS.concat(['-f', 'hanna'])
@@ -12,7 +21,7 @@ rescue LoadError
   Rake::RDocTask
 end
 
-RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'CICPHash']
+RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'cicphash.rb']
 
 rdoc_task_class.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
@@ -20,20 +29,10 @@ rdoc_task_class.new do |rdoc|
   rdoc.rdoc_files.add ["cicphash.rb"]
 end
 
-
-desc "Update docs and upload to rubyforge.org"
-task :doc_rforge => [:rdoc]
-task :doc_rforge do
-  sh %{chmod -R g+w rdoc}
-  sh %{rsync -rt rdoc/ rubyforge.org:/var/www/gforge-projects/cicphash/}
-end
-
-
 desc "Package ruby-cicphash"
 task :package do
   sh %{#{FileUtils::RUBY} -S gem build cicphash.gemspec}
 end
-
 
 desc "Run tests"
 task :default do

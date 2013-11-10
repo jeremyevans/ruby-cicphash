@@ -1,6 +1,6 @@
 # CICPHash is a case insensitive case preserving hash for ruby.
 #
-# * RDoc: http://cicphash.rubyforge.org
+# * RDoc: http://ruby-cicphash.jeremyevans.net
 # * Source: http://github.com/jeremyevans/ruby-cicphash
 #
 # Copyright (c) 2007, 2012 Jeremy Evans
