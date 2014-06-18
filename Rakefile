@@ -4,7 +4,6 @@ require 'rake/clean'
 RDOC_DEFAULT_OPTS = ["--quiet", "--line-numbers", "--inline-source", '--title', 'cicphash: Case Insensitive Case Preserving Hash']
 
 begin
-  gem 'rdoc', '= 3.12.2'
   gem 'hanna-nouveau'
   RDOC_DEFAULT_OPTS.concat(['-f', 'hanna'])
 rescue Gem::LoadError
