@@ -2,9 +2,9 @@
 
 $: << File.dirname(File.dirname(File.expand_path(__FILE__)))
 require 'cicphash'
-require 'test/unit'
+require 'minitest/autorun'
 
-class CICPHashTest < Test::Unit::TestCase
+class CICPHashTest < Minitest::Test
   def setup
     @h = CICPHash[]
     @fh = CICPHash['AB'=>1, :cd=>2, 3=>4]
@@ -17,7 +17,7 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal Hash[1=>2, 3=>4], CICPHash[1=>2, 3=>4]
     assert_equal Hash[1,2,3,4], CICPHash[1,2,3,4]
     assert_equal Hash[:ab,:c,:de,:f], CICPHash[:ab,:c,:de,:f]
-    assert_not_equal Hash[:AB,:c,:de,:f], CICPHash[:ab,:c,:de,:f]
+    refute_equal Hash[:AB,:c,:de,:f], CICPHash[:ab,:c,:de,:f]
     assert_raises(ArgumentError){CICPHash[1]}
     assert_raises(ArgumentError){CICPHash[1,2,3]}
     
@@ -105,12 +105,12 @@ class CICPHashTest < Test::Unit::TestCase
     
     h = CICPHash.new{|hash, key| 1234}
     assert_equal nil, h.default
-    assert_not_equal nil, h.default_proc
+    refute_equal nil, h.default_proc
     assert_equal 1234, h[55]
     
     h = CICPHash.new{|hash, key| hash[key] = 1234; nil}
     assert_equal nil, h.default
-    assert_not_equal nil, h.default_proc
+    refute_equal nil, h.default_proc
     assert_equal nil, h[55]
     assert_equal 1234, h[55]
   end
@@ -258,7 +258,7 @@ class CICPHashTest < Test::Unit::TestCase
     assert_equal Hash[1=>2, 3=>4].invert, CICPHash[1=>2, 3=>4].invert
     assert_equal Hash[1,2,3,4].invert, CICPHash[1,2,3,4].invert
     assert_equal Hash[:ab,:c,:de,:f].invert, CICPHash[:ab,:c,:de,:f].invert
-    assert_not_equal Hash[:ab,:c,:de,:f].invert, CICPHash[:aB,:c,:de,:f].invert
+    refute_equal Hash[:ab,:c,:de,:f].invert, CICPHash[:aB,:c,:de,:f].invert
     assert [{2=>1},{2=>3}].include?(CICPHash[1,2,3,2].invert)
   end
   
