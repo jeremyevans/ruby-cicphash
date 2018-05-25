@@ -352,7 +352,7 @@ class CICPHashTest < Minitest::Test
     assert_equal nil, @h.shift
     array = @fh.to_a
     i = 3
-    loop do
+    while true
       assert i >= 0
       kv = @fh.shift
       if kv.nil?
