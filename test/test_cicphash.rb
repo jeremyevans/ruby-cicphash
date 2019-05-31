@@ -1,7 +1,6 @@
-#!/usr/local/bin/ruby
-
 $: << File.dirname(File.dirname(File.expand_path(__FILE__)))
 require 'cicphash'
+ENV['MT_NO_PLUGINS'] = '1' # Work around stupid autoloading of plugins
 require 'minitest/autorun'
 
 class CICPHashTest < Minitest::Test
