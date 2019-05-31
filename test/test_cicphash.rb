@@ -52,7 +52,7 @@ class CICPHashTest < Minitest::Test
   end
   
   def test_store_and_retrieve
-    assert_equal nil, @h[1]
+    assert_nil  @h[1]
     @h[1] = 2
     assert_equal 2, @h[1]
     assert_equal 2, @h[:'1']
@@ -85,32 +85,32 @@ class CICPHashTest < Minitest::Test
   end
   
   def test_defaults
-    assert_equal nil, @fh.default
-    assert_equal nil, @fh.default_proc
-    assert_equal nil, @fh[55]
+    assert_nil  @fh.default
+    assert_nil  @fh.default_proc
+    assert_nil  @fh[55]
     assert_equal 3, CICPHash.new(3).default
-    assert_equal nil, CICPHash.new(3).default_proc
+    assert_nil  CICPHash.new(3).default_proc
     assert_equal 3, CICPHash.new(3)[1]
     
     @fh.default = 4
     assert_equal 4, @fh.default
-    assert_equal nil, @fh.default_proc
+    assert_nil  @fh.default_proc
     assert_equal 4, @fh[55]
     
     h = CICPHash.new(5)
     assert_equal 5, h.default
-    assert_equal nil, h.default_proc
+    assert_nil  h.default_proc
     assert_equal 5, h[55]
     
     h = CICPHash.new{|hash, key| 1234}
-    assert_equal nil, h.default
+    assert_nil  h.default
     refute_equal nil, h.default_proc
     assert_equal 1234, h[55]
     
     h = CICPHash.new{|hash, key| hash[key] = 1234; nil}
-    assert_equal nil, h.default
+    assert_nil  h.default
     refute_equal nil, h.default_proc
-    assert_equal nil, h[55]
+    assert_nil  h[55]
     assert_equal 1234, h[55]
   end
   
@@ -118,7 +118,7 @@ class CICPHashTest < Minitest::Test
     assert_equal 3, @fh.length
     assert_equal 1, @fh.delete(:ab)
     assert_equal 2, @fh.length
-    assert_equal nil, @fh.delete(:ab)
+    assert_nil  @fh.delete(:ab)
     assert_equal 2, @fh.length
   end
   
@@ -133,7 +133,7 @@ class CICPHashTest < Minitest::Test
     assert_equal Hash[3=>4], hash
     assert_equal 1, @fh.length
     assert_equal Hash[3=>4], @fh
-    assert_equal nil, @fh.reject!{|key, value| key.to_s.length >= 2}
+    assert_nil  @fh.reject!{|key, value| key.to_s.length >= 2}
     hash = @fh.reject!{|key, value| key.to_s.length == 1}
     assert_equal 0, hash.length
     assert_equal Hash[], hash
@@ -235,10 +235,10 @@ class CICPHashTest < Minitest::Test
   end
   
   def test_index
-    assert_equal nil, @h.index(1)
+    assert_nil  @h.index(1)
     assert_equal 'AB', @fh.index(1)
     assert_equal :cd, @fh.index(2)
-    assert_equal nil, @fh.index(3)
+    assert_nil  @fh.index(3)
     assert_equal 3, @fh.index(4)
   end
   
@@ -324,10 +324,10 @@ class CICPHashTest < Minitest::Test
     assert_equal CICPHash['AB'=>1, :cd=>2, 3=>4, 'blah'=>23], @fh.rehash
     x.replace("DIFF")
     assert_equal 23, @fh['blah']
-    assert_equal nil, @fh['DIFF']
+    assert_nil  @fh['DIFF']
     assert_equal CICPHash['AB'=>1, :cd=>2, 3=>4, 'DIFF'=>23], @fh
     assert_equal CICPHash['AB'=>1, :cd=>2, 3=>4, 'DIFF'=>23], @fh.rehash
-    assert_equal nil, @fh['blah']
+    assert_nil  @fh['blah']
     assert_equal 23, @fh['DIFF']
   end
   
@@ -348,7 +348,7 @@ class CICPHashTest < Minitest::Test
   end
   
   def test_shift
-    assert_equal nil, @h.shift
+    assert_nil  @h.shift
     array = @fh.to_a
     i = 3
     while true
@@ -402,10 +402,10 @@ class CICPHashTest < Minitest::Test
 
   if RUBY_VERSION >= '1.9'
     def test_assoc
-      assert_equal nil, @h.assoc(1)
+      assert_nil  @h.assoc(1)
       assert_equal ['AB', 1], @fh.assoc(:Ab)
       assert_equal [:cd, 2], @fh.assoc('CD')
-      assert_equal nil, @fh.assoc(4)
+      assert_nil  @fh.assoc(4)
       assert_equal [3, 4], @fh.assoc('3')
     end
 
@@ -432,24 +432,24 @@ class CICPHashTest < Minitest::Test
     end
 
     def test_key
-      assert_equal nil, @h.index(1)
+      assert_nil  @h.index(1)
       assert_equal 'AB', @fh.index(1)
       assert_equal :cd, @fh.index(2)
-      assert_equal nil, @fh.index(3)
+      assert_nil  @fh.index(3)
       assert_equal 3, @fh.index(4)
     end
 
     def test_rassoc
-      assert_equal nil, @h.rassoc(1)
+      assert_nil  @h.rassoc(1)
       assert_equal ['AB', 1], @fh.rassoc(1)
       assert_equal [:cd, 2], @fh.rassoc(2)
-      assert_equal nil, @fh.rassoc(3)
+      assert_nil  @fh.rassoc(3)
       assert_equal [3, 4], @fh.rassoc(4)
     end
 
     def test_select!
-      assert_equal nil, @h.select!{|k, v| true}
-      assert_equal nil, @fh.select!{|k, v| true}
+      assert_nil  @h.select!{|k, v| true}
+      assert_nil  @fh.select!{|k, v| true}
       assert_equal @h, @fh.dup.select!{|k, v| false}
       assert_equal CICPHash["AB"=>1], @fh.select!{|k, v| k == "AB"}
     end
