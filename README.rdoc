@@ -1,0 +1,44 @@
+= CICPHash
+
+ruby-cicphash is a library that adds the CICPHash class, which has the
+same interface as Hash, but is case insensitive  and case preserving.
+Any value can be used as a key.  However, you cannot have two keys in
+the same CICPHash that would be the same if when converted to strings
+would be equal or differing only in case.
+
+For example, all of the following keys would be considered equalivalent:
+'ab', 'Ab', 'AB', 'aB', :ab, :Ab, :AB, :aB
+
+CICPHash uses a last match wins policy.  If an key-value pair is added to
+a CICPHash and a case insensitive variant of the key is already in the hash
+the instance of the key in the hash becomes the same the most recently added
+key (and the value is updated to reflect the new value).
+
+Example:
+
+  require 'cicphash'
+  hash = CICPHash.new
+  hash[:AB] = 1
+  hash['ab'] # => 1
+  hash['ab']  = 2
+  hash # => {"ab"=>2}
+
+= Installation
+
+  gem install cicphash
+
+= Source Code
+
+Source code is available on GitHub at https://github.com/jeremyevans/ruby-cicphash
+
+= Reporting Bugs
+
+The bug tracker is located at https://github.com/jeremyevans/ruby-cicphash/issues
+
+= License
+
+MIT
+
+= Authors
+
+Jeremy Evans <code@jeremyevans.net>
