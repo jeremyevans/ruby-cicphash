@@ -18,7 +18,7 @@ rescue LoadError
   Rake::RDocTask
 end
 
-RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'cicphash.rb']
+RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'README.rdoc']
 
 rdoc_task_class.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
