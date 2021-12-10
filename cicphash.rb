@@ -1,11 +1,6 @@
-# CICPHash is a case insensitive case preserving hash for ruby.
-#
-# * RDoc: http://ruby-cicphash.jeremyevans.net
-# * Source: http://github.com/jeremyevans/ruby-cicphash
-
 # Case Insensitive Case Preserving Hash
 #
-# CICPHash has the exact interface as Hash, but is case insensitive
+# CICPHash has the same interface as Hash, but is case insensitive
 # and case preserving.  Any value can be used as a key.  However, you
 # cannot have two keys in the same CICPHash that would be the same if when
 # converted to strings would be equal or differing only in case.
