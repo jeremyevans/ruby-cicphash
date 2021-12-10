@@ -1,12 +1,21 @@
 $: << File.dirname(File.dirname(File.expand_path(__FILE__)))
 require 'cicphash'
 ENV['MT_NO_PLUGINS'] = '1' # Work around stupid autoloading of plugins
+require 'rubygems'
+gem 'minitest'
 require 'minitest/autorun'
 
 class CICPHashTest < Minitest::Test
   def setup
     @h = CICPHash[]
     @fh = CICPHash['AB'=>1, :cd=>2, 3=>4]
+  end
+
+  def test_public_interface
+    cicphash_methods = CICPHash.public_instance_methods.sort
+    hash_methods = Hash.public_instance_methods.sort
+    assert_empty(cicphash_methods - hash_methods)
+    assert_empty(hash_methods - cicphash_methods)
   end
   
   def test_constructors_and_equality
@@ -234,12 +243,14 @@ class CICPHashTest < Minitest::Test
     end
   end
   
-  def test_index
-    assert_nil  @h.index(1)
-    assert_equal 'AB', @fh.index(1)
-    assert_equal :cd, @fh.index(2)
-    assert_nil  @fh.index(3)
-    assert_equal 3, @fh.index(4)
+  if RUBY_VERSION < '3'
+    def test_index
+      assert_nil  @h.index(1)
+      assert_equal 'AB', @fh.index(1)
+      assert_equal :cd, @fh.index(2)
+      assert_nil  @fh.index(3)
+      assert_equal 3, @fh.index(4)
+    end
   end
   
   def test_inspect_and_to_s
@@ -400,6 +411,21 @@ class CICPHashTest < Minitest::Test
     assert_equal [4, 2, nil, 1], @fh.values_at('3', 'CD', 32, :ab)
   end
 
+  if RUBY_VERSION < '1.9'
+    def test_indexes_indices
+      [:indexes, :indices].each do |meth|
+        assert_equal [], @h.send(meth)
+        assert_equal [nil], @h.send(meth, 1)
+        assert_equal [nil, nil], @h.send(meth, 1, 1)
+        assert_equal [], @fh.send(meth)
+        assert_equal [1], @fh.send(meth, :ab)
+        assert_equal [2, 1], @fh.send(meth, 'CD', :ab)
+        assert_equal [2, nil, 1], @fh.send(meth, 'CD', 32, :ab)
+        assert_equal [4, 2, nil, 1], @fh.send(meth, '3', 'CD', 32, :ab)
+      end
+    end
+  end
+
   if RUBY_VERSION >= '1.9'
     def test_assoc
       assert_nil  @h.assoc(1)
@@ -432,11 +458,11 @@ class CICPHashTest < Minitest::Test
     end
 
     def test_key
-      assert_nil  @h.index(1)
-      assert_equal 'AB', @fh.index(1)
-      assert_equal :cd, @fh.index(2)
-      assert_nil  @fh.index(3)
-      assert_equal 3, @fh.index(4)
+      assert_nil  @h.key(1)
+      assert_equal 'AB', @fh.key(1)
+      assert_equal :cd, @fh.key(2)
+      assert_nil  @fh.key(3)
+      assert_equal 3, @fh.key(4)
     end
 
     def test_rassoc
@@ -452,6 +478,180 @@ class CICPHashTest < Minitest::Test
       assert_nil  @fh.select!{|k, v| true}
       assert_equal @h, @fh.dup.select!{|k, v| false}
       assert_equal CICPHash["AB"=>1], @fh.select!{|k, v| k == "AB"}
+    end
+
+    def test_compare_by_identity
+      assert_raises(TypeError){@fh.compare_by_identity}
+    end
+
+    def test_compare_by_identity?
+      assert_equal(false, @fh.compare_by_identity?)
+    end
+  end
+
+  if RUBY_VERSION >= '2.0'
+    def test_to_h
+      assert_equal Hash[], @h.to_h
+      assert_equal Hash[3,4,'AB',1,:cd,2], @fh.to_h
+    end
+  end
+
+  if RUBY_VERSION >= '2.3'
+    def test_gt
+      assert_equal(false, @fh > @fh)
+      assert_equal(true, @fh > CICPHash['AB'=>1, :cd=>2])
+      assert_equal(false, @fh > CICPHash['AB'=>1, :cd=>2, 3=>4, 5=>6])
+      assert_equal(false, @fh > CICPHash[:AB=>1, :cd=>2, 3=>4])
+      assert_equal(false, @fh > CICPHash[:AB=>1, :cd=>2])
+      assert_equal(false, @fh > CICPHash[:AB=>1, :cd=>2, 3=>4, 5=>6])
+    end
+
+    def test_gte
+      assert_equal(true, @fh >= @fh)
+      assert_equal(true, @fh >= CICPHash['AB'=>1, :cd=>2])
+      assert_equal(false, @fh >= CICPHash['AB'=>1, :cd=>2, 3=>4, 5=>6])
+      assert_equal(false, @fh >= CICPHash[:AB=>1, :cd=>2, 3=>4])
+      assert_equal(false, @fh >= CICPHash[:AB=>1, :cd=>2])
+      assert_equal(false, @fh >= CICPHash[:AB=>1, :cd=>2, 3=>4, 5=>6])
+    end
+
+    def test_lt
+      assert_equal(false, @fh < @fh)
+      assert_equal(false, @fh < CICPHash['AB'=>1, :cd=>2])
+      assert_equal(true, @fh < CICPHash['AB'=>1, :cd=>2, 3=>4, 5=>6])
+      assert_equal(false, @fh < CICPHash[:AB=>1, :cd=>2, 3=>4])
+      assert_equal(false, @fh < CICPHash[:AB=>1, :cd=>2])
+      assert_equal(false, @fh < CICPHash[:AB=>1, :cd=>2, 3=>4, 5=>6])
+    end
+
+    def test_lte
+      assert_equal(true, @fh <= @fh)
+      assert_equal(false, @fh <= CICPHash['AB'=>1, :cd=>2])
+      assert_equal(true, @fh <= CICPHash['AB'=>1, :cd=>2, 3=>4, 5=>6])
+      assert_equal(false, @fh <= CICPHash[:AB=>1, :cd=>2, 3=>4])
+      assert_equal(false, @fh <= CICPHash[:AB=>1, :cd=>2])
+      assert_equal(false, @fh <= CICPHash[:AB=>1, :cd=>2, 3=>4, 5=>6])
+    end
+
+    def test_dig
+      assert_equal(1, @fh.dig(:AB))
+      assert_equal(2, @fh.dig('cd'))
+      assert_equal(4, @fh.dig('3'))
+      assert_nil(@fh.dig(4))
+
+      assert_raises(TypeError){@fh.dig(:AB, 1)}
+      assert_raises(TypeError){@fh.dig('cd', 2)}
+      assert_raises(TypeError){@fh.dig('3', 3)}
+      assert_nil(@fh.dig(4, 5))
+
+      fh = CICPHash['AB'=>{1=>2}, 3=>CICPHash['CD'=>4]]
+      assert_equal(2, fh.dig(:AB, 1))
+      assert_nil(fh.dig(:AB, 2))
+      assert_raises(TypeError){fh.dig(:AB, 1, 3)}
+      assert_nil(fh.dig(:AB, 2, 3))
+
+      assert_equal(4, fh.dig('3', :cd))
+      assert_nil(fh.dig(3, 2))
+      assert_nil(fh.dig(4))
+    end
+
+    def test_fetch_values
+      assert_equal([1], @fh.fetch_values(:AB))
+      assert_equal([1, 2, 4], @fh.fetch_values(:AB, 'cd', '3'))
+      assert_raises(KeyError){@fh.fetch_values(:AB, 'cd', 4)}
+    end
+
+    def test_to_proc
+      pr = @fh.to_proc
+      assert_equal(1, pr[:AB])
+      assert_equal(2, pr['cd'])
+      assert_equal(4, pr['3'])
+      assert_nil(pr[4])
+    end
+  end
+
+  if RUBY_VERSION >= '2.4'
+    def test_compact
+      assert_equal(false, @fh.compact.equal?(@fh))
+      assert_equal(@fh, @fh.compact)
+      assert_equal(CICPHash['AB'=>1], CICPHash['AB'=>1, :cd=>nil].compact)
+    end
+
+    def test_compact!
+      fh = @fh.dup
+      assert_nil(@fh.compact!)
+      assert_equal(fh, @fh)
+
+      h = CICPHash['AB'=>1, :cd=>nil]
+      assert_equal(CICPHash['AB'=>1], h.compact!)
+      assert_equal(CICPHash['AB'=>1], h)
+    end
+
+    def test_transform_values
+      fh = @fh.transform_values{|v| v.to_s*2}
+      assert_equal(1, @fh[:AB])
+      assert_equal(CICPHash['AB'=>'11', :cd=>'22', 3=>'44'], fh)
+      assert_equal('11', fh[:AB])
+    end
+
+    def test_transform_values!
+      @fh.transform_values!{|v| v.to_s*2}
+      assert_equal('11', @fh[:AB])
+      assert_equal(CICPHash['AB'=>'11', :cd=>'22', 3=>'44'], @fh)
+      assert_equal('11', @fh[:AB])
+    end
+  end
+
+  if RUBY_VERSION >= '2.5'
+    def test_slice
+      assert_equal(CICPHash[:AB=>1, 'CD'=>2, '3'=>4], @fh.slice(:AB, 'CD', '3'))
+      assert_equal(CICPHash[:AB=>1, 'CD'=>2], @fh.slice(:AB, 'CD'))
+      assert_equal(1, @fh.slice(:AB, 'CD')['AB'])
+    end
+
+    def test_transform_keys
+      map = {'AB'=>:XY, :cd=>'DC', 3=>'5'}
+      dh = @fh.dup
+      fh = @fh.transform_keys{|k| map[k]}
+      assert_equal(dh, @fh)
+      assert_equal(1, fh['XY'])
+      assert_equal(2, fh[:dc])
+      assert_equal(4, fh[5])
+    end
+
+    def test_transform_keys!
+      map = {'AB'=>:XY, :cd=>'DC', 3=>'5'}
+      dh = @fh.dup
+      fh = @fh.transform_keys!{|k| map[k]}
+      assert_equal(false, dh == @fh)
+      assert_equal(1, @fh['XY'])
+      assert_equal(2, @fh[:dc])
+      assert_equal(4, @fh[5])
+    end
+  end
+
+  if RUBY_VERSION >= '2.6'
+    def test_filter!
+      assert_nil  @h.filter!{|k, v| true}
+      assert_nil  @fh.filter!{|k, v| true}
+      assert_equal @h, @fh.dup.filter!{|k, v| false}
+      assert_equal CICPHash["AB"=>1], @fh.filter!{|k, v| k == "AB"}
+    end
+  end
+
+  if RUBY_VERSION >= '2.7'
+    def test_deconstruct_keys
+      assert_equal(@fh.to_hash, @fh.deconstruct_keys)
+      assert_equal(Hash, @fh.deconstruct_keys.class)
+    end
+  end
+
+  if RUBY_VERSION >= '3.0'
+    def test_except
+      @fh = CICPHash['AB'=>1, :cd=>2, 3=>4]
+      assert_equal(@fh, @fh.except)
+      assert_equal(CICPHash[:cd=>2, 3=>4], @fh.except('AB', 5))
+      assert_equal(CICPHash['AB'=>1], @fh.except('CD', '3'))
     end
   end
 end

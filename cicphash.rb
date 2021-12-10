@@ -146,7 +146,8 @@ class CICPHash
     elsif default.length == 1
       default.first
     else
-      raise IndexError, "key not found"
+      error_class = RUBY_VERSION < '1.9' ? IndexError : KeyError
+      raise error_class, "key not found"
     end
   end
   
@@ -166,7 +167,10 @@ class CICPHash
     def key(value)
       @name_hash[@hash.key(value)]
     end
-    alias index key
+
+    if RUBY_VERSION < '3'
+      alias index key
+    end
   else
     def index(value)
       @name_hash[@hash.index(value)]
@@ -284,10 +288,21 @@ class CICPHash
   def values_at(*keys)
     keys.collect{|key| self[key]}
   end
-  alias indexes values_at
-  alias indices values_at
+
+  if RUBY_VERSION < '1.9'
+    alias indexes values_at
+    alias indices values_at
+  end
 
   if RUBY_VERSION >= '1.9'
+    def compare_by_identity
+      raise TypeError, "CICPHash cannot compare by identity, use regular Hash"
+    end
+
+    def compare_by_identity?
+      false
+    end
+
     def assoc(obj)
       obj = convert_key(obj)
       each do |k, v|
@@ -335,7 +350,100 @@ class CICPHash
       self if mod
     end
   end
+
+  if RUBY_VERSION >= '2.0'
+    alias to_h to_hash
+  end
   
+  if RUBY_VERSION >= '2.3'
+    def >(other)
+      to_hash > other.to_hash
+    end
+
+    def >=(other)
+      to_hash >= other.to_hash
+    end
+
+    def <(other)
+      to_hash < other.to_hash
+    end
+
+    def <=(other)
+      to_hash <= other.to_hash
+    end
+
+    def dig(arg, *a)
+      h = self[arg]
+      if a.empty?
+        h
+      elsif !h.nil?
+        raise TypeError, "#{h.class} does not have #dig method" unless h.respond_to?(:dig)
+        h.dig(*a) 
+      end
+    end
+
+    def fetch_values(*a)
+      a.map{|x| fetch(x)}
+    end
+
+    def to_proc
+      lambda{|x| self[x]}
+    end
+  end
+
+  if RUBY_VERSION >= '2.4'
+    def compact
+      hash = dup
+      hash.compact!
+      hash
+    end
+
+    def compact!
+      hash = to_hash
+      replace(hash) if hash.compact!
+    end
+
+    def transform_values(&block)
+      dup.transform_values!(&block)
+    end
+
+    def transform_values!(&block)
+      replace(to_hash.transform_values!(&block))
+    end
+  end
+
+  if RUBY_VERSION >= '2.5'
+    def slice(*a)
+      h = self.class.new
+      a.each{|k| h[k] = self[k] if has_key?(k)}
+      h
+    end
+
+    def transform_keys(&block)
+      dup.transform_keys!(&block)
+    end
+
+    def transform_keys!(&block)
+      replace(to_hash.transform_keys!(&block))
+    end
+  end
+
+  if RUBY_VERSION >= '2.6'
+    alias filter! select!
+  end
+
+  if RUBY_VERSION >= '2.7'
+    alias deconstruct_keys to_hash
+  end
+
+  if RUBY_VERSION >= '3.0'
+    def except(*a)
+      h = dup
+      a.each{|k| h.delete(k)}
+      h
+    end
+  end
+
   private
 
   def convert_key(key)
