@@ -5,7 +5,7 @@
 
 # Case Insensitive Case Preserving Hash
 #
-# CICPHash has the exact same interface as Hash, but is case insensitive
+# CICPHash has the exact interface as Hash, but is case insensitive
 # and case preserving.  Any value can be used as a key.  However, you
 # cannot have two keys in the same CICPHash that would be the same if when
 # converted to strings would be equal or differing only in case.
@@ -16,7 +16,7 @@
 # CICPHash uses a last match wins policy.  If an key-value pair is added to
 # a CICPHash and a case insensitive variant of the key is already in the hash
 # the instance of the key in the hash becomes the same the most recently added
-# key (and obviously the value is updated to reflect the new value).
+# key (and the value is updated to reflect the new value).
 #
 # You can change the rules determining which keys are equal by modifying the
 # private convert_key method.  By default, it is set to key.to_s.downcase.
