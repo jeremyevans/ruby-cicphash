@@ -1,910 +1,1199 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
-  <head>
-    <title>CICPHash</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>class</span>
-          CICPHash
-        </h1>
-        <ol class='paths'>
-          <li>
-            <a target="docwin" href="../files/cicphash_rb.html">cicphash.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Superclass:
-          <strong>Object</strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='description'>
-            
-            <p>Case Insensitive Case Preserving Hash</p>
-            
-            <p><a href="CICPHash.html">CICPHash</a> has the exact same interface as Hash,
-            but is case insensitive and case preserving.  Any value can be used as a
-            key.  However, you cannot have two keys in the same <a
-            href="CICPHash.html">CICPHash</a> that would be the same if when converted
-            to strings would be equal or differing only in case.</p>
-            
-            <p>For example, all of the following keys would be considered equalivalent:
-            &#39;ab&#39;, &#39;Ab&#39;, &#39;AB&#39;, &#39;aB&#39;, :ab, :Ab, :AB, :aB</p>
-            
-            <p><a href="CICPHash.html">CICPHash</a> uses a last match wins policy.  If an
-            key-value pair is added to a <a href="CICPHash.html">CICPHash</a> and a
-            case insensitive variant of the key is already in the hash the instance of
-            the key in the hash becomes the same the most recently added key (and
-            obviously the value is updated to reflect the new value).</p>
-            
-            <p>You can change the rules determining which keys are equal by modifying the
-            private convert_key method.  By default, it is set to key.to_s.downcase.
-            This method should produce the same output for any keys that you want to
-            consider equal.  For example, if you want :a and :A to be equal but :a to
-            be different than “a”, maybe key.inspect.downcase would work for you.</p>
-          </div>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>Public Class</h3>
-            <ol>
-              <li><a target="docwin" href="#method-c-5B-5D">[]</a></li>
-              <li><a target="docwin" href="#method-c-new">new</a></li>
-            </ol>
-            <h3>Public Instance</h3>
-            <ol>
-              <li><a target="docwin" href="#method-i-3D-3D">==</a></li>
-              <li><a target="docwin" href="#method-i-5B-5D">[]</a></li>
-              <li><a target="docwin" href="#method-i-5B-5D-3D">[]=</a></li>
-              <li><a target="docwin" href="#method-i-assoc">assoc</a></li>
-              <li><a target="docwin" href="#method-i-clear">clear</a></li>
-              <li><a target="docwin" href="#method-i-clone">clone</a></li>
-              <li><a target="docwin" href="#method-i-default">default</a></li>
-              <li><a target="docwin" href="#method-i-default-3D">default=</a></li>
-              <li><a target="docwin" href="#method-i-default_proc">default_proc</a></li>
-              <li><a target="docwin" href="#method-i-delete">delete</a></li>
-              <li><a target="docwin" href="#method-i-delete_if">delete_if</a></li>
-              <li><a target="docwin" href="#method-i-dup">dup</a></li>
-              <li><a target="docwin" href="#method-i-each">each</a></li>
-              <li><a target="docwin" href="#method-i-each_key">each_key</a></li>
-              <li><a target="docwin" href="#method-i-each_value">each_value</a></li>
-              <li><a target="docwin" href="#method-i-empty-3F">empty?</a></li>
-              <li><a target="docwin" href="#method-i-fetch">fetch</a></li>
-              <li><a target="docwin" href="#method-i-flatten">flatten</a></li>
-              <li><a target="docwin" href="#method-i-has_key-3F">has_key?</a></li>
-              <li><a target="docwin" href="#method-i-has_value-3F">has_value?</a></li>
-              <li><a target="docwin" href="#method-i-inspect">inspect</a></li>
-              <li><a target="docwin" href="#method-i-invert">invert</a></li>
-              <li><a target="docwin" href="#method-i-keep_if">keep_if</a></li>
-              <li><a target="docwin" href="#method-i-key">key</a></li>
-              <li><a target="docwin" href="#method-i-keys">keys</a></li>
-              <li><a target="docwin" href="#method-i-length">length</a></li>
-              <li><a target="docwin" href="#method-i-merge">merge</a></li>
-              <li><a target="docwin" href="#method-i-rassoc">rassoc</a></li>
-              <li><a target="docwin" href="#method-i-rehash">rehash</a></li>
-              <li><a target="docwin" href="#method-i-reject">reject</a></li>
-              <li><a target="docwin" href="#method-i-reject-21">reject!</a></li>
-              <li><a target="docwin" href="#method-i-replace">replace</a></li>
-              <li><a target="docwin" href="#method-i-select">select</a></li>
-              <li><a target="docwin" href="#method-i-select-21">select!</a></li>
-              <li><a target="docwin" href="#method-i-shift">shift</a></li>
-              <li><a target="docwin" href="#method-i-sort">sort</a></li>
-              <li><a target="docwin" href="#method-i-to_a">to_a</a></li>
-              <li><a target="docwin" href="#method-i-to_hash">to_hash</a></li>
-              <li><a target="docwin" href="#method-i-to_s">to_s</a></li>
-              <li><a target="docwin" href="#method-i-update">update</a></li>
-              <li><a target="docwin" href="#method-i-values">values</a></li>
-              <li><a target="docwin" href="#method-i-values_at">values_at</a></li>
-            </ol>
-          </div>
-          <div id='context'>
-            <div id='includes'>
-              <h2>Included modules</h2>
-              <ol>
-                <li>Enumerable</li>
-              </ol>
-            </div>
-          </div>
-          <div id='section'>
-            <div id='aliases-list'>
-              <h2>Public Instance Aliases</h2>
-              <div class='name-list'>
-                <table summary='Public Instance Aliases'>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>each_pair</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-each">each</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>include?</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-has_key-3F">has_key?</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>index</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-key">key</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>indexes</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-values_at">values_at</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>indices</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-values_at">values_at</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>key?</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-has_key-3F">has_key?</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>member?</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-has_key-3F">has_key?</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>merge!</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-update">update</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>size</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-length">length</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>store</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-5B-5D-3D">[]=</a></td>
-                  </tr>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>value?</td>
-                    <td>-&gt;</td>
-                    <td class='context-item-value'><a target="docwin" href="#method-i-has_value-3F">has_value?</a></td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-            <div id='methods'>
-              <h2>Public Class methods</h2>
-              <div class='method public-class' id='method-method-c-5B-5D'>
-                <a name='method-c-5B-5D'></a>
-                <div class='synopsis'>
-                  <span class='name'>[]</span>
-                  <span class='arguments'>(*items)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-5B-5D-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-c-5B-5D-source'><span class="ruby-comment"># File cicphash.rb, line 49</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-operator">[]</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">items</span>)&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">%</span> <span class="ruby-value">2</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)&#x000A;      <span class="ruby-identifier">new</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">items</span>.<span class="ruby-identifier">first</span>)&#x000A;    <span class="ruby-keyword">else</span>&#x000A;      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;odd number of arguments for CICPHash&quot;</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">new</span>&#x000A;    <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>&#x000A;      <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>&#x000A;      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">items</span>.<span class="ruby-identifier">shift</span>&#x000A;      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">items</span>.<span class="ruby-identifier">shift</span>&#x000A;      <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;    <span class="ruby-identifier">hash</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-class' id='method-method-c-new'>
-                <a name='method-c-new'></a>
-                <div class='synopsis'>
-                  <span class='name'>new</span>
-                  <span class='arguments'>(*default, &block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-c-new-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-c-new-source'><span class="ruby-comment"># File cicphash.rb, line 68</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">default</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">block_given?</span>&#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;wrong number of arguments&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-ivar">@name_hash</span> = {}&#x000A;  <span class="ruby-ivar">@hash</span> = {}&#x000A;  <span class="ruby-ivar">@default</span> = <span class="ruby-identifier">default</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_given?</span>&#x000A;  <span class="ruby-ivar">@default_proc</span> = <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <h2>Public Instance methods</h2>
-              <div class='method public-instance' id='method-method-i-3D-3D'>
-                <a name='method-i-3D-3D'></a>
-                <div class='synopsis'>
-                  <span class='name'>==</span>
-                  <span class='arguments'>(hash)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-3D-3D-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-3D-3D-source'><span class="ruby-comment"># File cicphash.rb, line 78</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">hash</span>)&#x000A;  <span class="ruby-identifier">to_hash</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">to_hash</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-5B-5D'>
-                <a name='method-i-5B-5D'></a>
-                <div class='synopsis'>
-                  <span class='name'>[]</span>
-                  <span class='arguments'>(key)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-5B-5D-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-5B-5D-source'><span class="ruby-comment"># File cicphash.rb, line 82</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-identifier">new_key</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">new_key</span>)&#x000A;    <span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">new_key</span>]&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@default_proc</span>&#x000A;    <span class="ruby-ivar">@default_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-ivar">@default</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-5B-5D-3D'>
-                <a name='method-i-5B-5D-3D'></a>
-                <div class='synopsis'>
-                  <span class='name'>[]=</span>
-                  <span class='arguments'>(key, value)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-5B-5D-3D-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-5B-5D-3D-source'><span class="ruby-comment"># File cicphash.rb, line 93</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-operator">[]=</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-identifier">new_key</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-identifier">key</span>&#x000A;  <span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-identifier">value</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-assoc'>
-                <a name='method-i-assoc'></a>
-                <div class='synopsis'>
-                  <span class='name'>assoc</span>
-                  <span class='arguments'>(obj)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-assoc-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-assoc-source'><span class="ruby-comment"># File cicphash.rb, line 311</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">assoc</span>(<span class="ruby-identifier">obj</span>)&#x000A;  <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">obj</span>)&#x000A;  <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">k</span>) <span class="ruby-operator">==</span> <span class="ruby-identifier">obj</span>&#x000A;      <span class="ruby-keyword">return</span> [<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>]&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-clear'>
-                <a name='method-i-clear'></a>
-                <div class='synopsis'>
-                  <span class='name'>clear</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-clear-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-clear-source'><span class="ruby-comment"># File cicphash.rb, line 100</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear</span>&#x000A;  <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">clear</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">clear</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-clone'>
-                <a name='method-i-clone'></a>
-                <div class='synopsis'>
-                  <span class='name'>clone</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-clone-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-clone-source'><span class="ruby-comment"># File cicphash.rb, line 105</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">clone</span>&#x000A;  <span class="ruby-identifier">s</span> = <span class="ruby-keyword">super</span>&#x000A;  <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@hash</span>, <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">clone</span>)&#x000A;  <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@name_hash</span>, <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">clone</span>)&#x000A;  <span class="ruby-identifier">s</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-default'>
-                <a name='method-i-default'></a>
-                <div class='synopsis'>
-                  <span class='name'>default</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-default-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-default-source'><span class="ruby-comment"># File cicphash.rb, line 112</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">default</span>&#x000A;  <span class="ruby-ivar">@default</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-default-3D'>
-                <a name='method-i-default-3D'></a>
-                <div class='synopsis'>
-                  <span class='name'>default=</span>
-                  <span class='arguments'>(value)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-default-3D-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-default-3D-source'><span class="ruby-comment"># File cicphash.rb, line 116</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">default=</span>(<span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-ivar">@default</span> = <span class="ruby-identifier">value</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-default_proc'>
-                <a name='method-i-default_proc'></a>
-                <div class='synopsis'>
-                  <span class='name'>default_proc</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-default_proc-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-default_proc-source'><span class="ruby-comment"># File cicphash.rb, line 120</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">default_proc</span>&#x000A;  <span class="ruby-ivar">@default_proc</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-delete'>
-                <a name='method-i-delete'></a>
-                <div class='synopsis'>
-                  <span class='name'>delete</span>
-                  <span class='arguments'>(key)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-delete-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-delete-source'><span class="ruby-comment"># File cicphash.rb, line 124</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-identifier">new_key</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">new_key</span>)&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">new_key</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-delete_if'>
-                <a name='method-i-delete_if'></a>
-                <div class='synopsis'>
-                  <span class='name'>delete_if</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-delete_if-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-delete_if-source'><span class="ruby-comment"># File cicphash.rb, line 130</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_if</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>) <span class="ruby-operator">:</span> (<span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>)}&#x000A;  <span class="ruby-identifier">hash</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-dup'>
-                <a name='method-i-dup'></a>
-                <div class='synopsis'>
-                  <span class='name'>dup</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-dup-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-dup-source'><span class="ruby-comment"># File cicphash.rb, line 136</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">dup</span>&#x000A;  <span class="ruby-identifier">s</span> = <span class="ruby-keyword">super</span>&#x000A;  <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@hash</span>, <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">dup</span>)&#x000A;  <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@name_hash</span>, <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">dup</span>)&#x000A;  <span class="ruby-identifier">s</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-each'>
-                <a name='method-i-each'></a>
-                <div class='synopsis'>
-                  <span class='name'>each</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-each-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-each-source'><span class="ruby-comment"># File cicphash.rb, line 143</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">value</span> }&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-each_key'>
-                <a name='method-i-each_key'></a>
-                <div class='synopsis'>
-                  <span class='name'>each_key</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-each_key-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-each_key-source'><span class="ruby-comment"># File cicphash.rb, line 148</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">each_key</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each_key</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">key</span>] }&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-each_value'>
-                <a name='method-i-each_value'></a>
-                <div class='synopsis'>
-                  <span class='name'>each_value</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-each_value-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-each_value-source'><span class="ruby-comment"># File cicphash.rb, line 152</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">each_value</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each_value</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-identifier">value</span> }&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-empty-3F'>
-                <a name='method-i-empty-3F'></a>
-                <div class='synopsis'>
-                  <span class='name'>empty?</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-empty-3F-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-empty-3F-source'><span class="ruby-comment"># File cicphash.rb, line 156</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">empty?</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-fetch'>
-                <a name='method-i-fetch'></a>
-                <div class='synopsis'>
-                  <span class='name'>fetch</span>
-                  <span class='arguments'>(key, *default, &block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-fetch-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-fetch-source'><span class="ruby-comment"># File cicphash.rb, line 160</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">key</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">default</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;wrong number of arguments (#{default.length+1} for 2)&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)&#x000A;    <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>]&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block_given?</span>&#x000A;    <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>&#x000A;    <span class="ruby-identifier">default</span>.<span class="ruby-identifier">first</span>&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">IndexError</span>, <span class="ruby-string">&quot;key not found&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-flatten'>
-                <a name='method-i-flatten'></a>
-                <div class='synopsis'>
-                  <span class='name'>flatten</span>
-                  <span class='arguments'>(*a)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-flatten-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-flatten-source'><span class="ruby-comment"># File cicphash.rb, line 323</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">flatten</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">empty?</span>&#x000A;    <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">flatten</span>(<span class="ruby-value">1</span>)&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">flatten</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-has_key-3F'>
-                <a name='method-i-has_key-3F'></a>
-                <div class='synopsis'>
-                  <span class='name'>has_key?</span>
-                  <span class='arguments'>(key)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-has_key-3F-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-has_key-3F-source'><span class="ruby-comment"># File cicphash.rb, line 173</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>))&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-has_value-3F'>
-                <a name='method-i-has_value-3F'></a>
-                <div class='synopsis'>
-                  <span class='name'>has_value?</span>
-                  <span class='arguments'>(value)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-has_value-3F-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-has_value-3F-source'><span class="ruby-comment"># File cicphash.rb, line 180</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">has_value?</span>(<span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">has_value?</span>(<span class="ruby-identifier">value</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-inspect'>
-                <a name='method-i-inspect'></a>
-                <div class='synopsis'>
-                  <span class='name'>inspect</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-inspect-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-inspect-source'><span class="ruby-comment"># File cicphash.rb, line 196</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>&#x000A;  <span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">inspect</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-invert'>
-                <a name='method-i-invert'></a>
-                <div class='synopsis'>
-                  <span class='name'>invert</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-invert-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-invert-source'><span class="ruby-comment"># File cicphash.rb, line 200</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">invert</span>&#x000A;  <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">value</span>] = <span class="ruby-identifier">key</span>}&#x000A;  <span class="ruby-identifier">hash</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-keep_if'>
-                <a name='method-i-keep_if'></a>
-                <div class='synopsis'>
-                  <span class='name'>keep_if</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-keep_if-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-keep_if-source'><span class="ruby-comment"># File cicphash.rb, line 331</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">keep_if</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">self</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-key'>
-                <a name='method-i-key'></a>
-                <div class='synopsis'>
-                  <span class='name'>key</span>
-                  <span class='arguments'>(value)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-key-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-key-source'><span class="ruby-comment"># File cicphash.rb, line 186</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">key</span>(<span class="ruby-identifier">value</span>)&#x000A;  <span class="ruby-ivar">@name_hash</span>[<span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">key</span>(<span class="ruby-identifier">value</span>)]&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-keys'>
-                <a name='method-i-keys'></a>
-                <div class='synopsis'>
-                  <span class='name'>keys</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-keys-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-keys-source'><span class="ruby-comment"># File cicphash.rb, line 206</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">keys</span>&#x000A;  <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">values</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-length'>
-                <a name='method-i-length'></a>
-                <div class='synopsis'>
-                  <span class='name'>length</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-length-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-length-source'><span class="ruby-comment"># File cicphash.rb, line 210</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">length</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">length</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-merge'>
-                <a name='method-i-merge'></a>
-                <div class='synopsis'>
-                  <span class='name'>merge</span>
-                  <span class='arguments'>(hash, &block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-merge-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-merge-source'><span class="ruby-comment"># File cicphash.rb, line 215</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge</span>(<span class="ruby-identifier">hash</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">new_hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-keyword">self</span>)&#x000A;  <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> &#x000A;    <span class="ruby-identifier">new_hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">new_hash</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)&#x000A;      <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">new_hash</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>])&#x000A;    <span class="ruby-keyword">else</span> &#x000A;      <span class="ruby-identifier">value</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">new_hash</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-rassoc'>
-                <a name='method-i-rassoc'></a>
-                <div class='synopsis'>
-                  <span class='name'>rassoc</span>
-                  <span class='arguments'>(obj)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-rassoc-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-rassoc-source'><span class="ruby-comment"># File cicphash.rb, line 338</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">rassoc</span>(<span class="ruby-identifier">obj</span>)&#x000A;  <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">v</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">obj</span>&#x000A;      <span class="ruby-keyword">return</span> [<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>]&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-rehash'>
-                <a name='method-i-rehash'></a>
-                <div class='synopsis'>
-                  <span class='name'>rehash</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-rehash-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-rehash-source'><span class="ruby-comment"># File cicphash.rb, line 227</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">rehash</span>&#x000A;  <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-identifier">new_key</span> = <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span> &#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_key</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">key</span>&#x000A;      <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)&#x000A;      <span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">self</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-reject'>
-                <a name='method-i-reject'></a>
-                <div class='synopsis'>
-                  <span class='name'>reject</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-reject-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-reject-source'><span class="ruby-comment"># File cicphash.rb, line 238</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)}&#x000A;  <span class="ruby-identifier">hash</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-reject-21'>
-                <a name='method-i-reject-21'></a>
-                <div class='synopsis'>
-                  <span class='name'>reject!</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-reject-21-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-reject-21-source'><span class="ruby-comment"># File cicphash.rb, line 244</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">reject!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;  <span class="ruby-identifier">changes</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>) <span class="ruby-operator">?</span> (<span class="ruby-identifier">changes</span> = <span class="ruby-keyword">true</span>; <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)) <span class="ruby-operator">:</span> (<span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>)}&#x000A;  <span class="ruby-identifier">changes</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">hash</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-replace'>
-                <a name='method-i-replace'></a>
-                <div class='synopsis'>
-                  <span class='name'>replace</span>
-                  <span class='arguments'>(hash)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-replace-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-replace-source'><span class="ruby-comment"># File cicphash.rb, line 251</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">replace</span>(<span class="ruby-identifier">hash</span>)&#x000A;  <span class="ruby-identifier">clear</span>&#x000A;  <span class="ruby-identifier">update</span>(<span class="ruby-identifier">hash</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-select'>
-                <a name='method-i-select'></a>
-                <div class='synopsis'>
-                  <span class='name'>select</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-select-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-select-source'><span class="ruby-comment"># File cicphash.rb, line 256</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">select</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">array</span> = []&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">array</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)}&#x000A;  <span class="ruby-identifier">array</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-select-21'>
-                <a name='method-i-select-21'></a>
-                <div class='synopsis'>
-                  <span class='name'>select!</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-select-21-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-select-21-source'><span class="ruby-comment"># File cicphash.rb, line 347</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">select!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">mod</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-keyword">unless</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)&#x000A;      <span class="ruby-identifier">mod</span> = <span class="ruby-keyword">true</span>&#x000A;      <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">self</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">mod</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-shift'>
-                <a name='method-i-shift'></a>
-                <div class='synopsis'>
-                  <span class='name'>shift</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-shift-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-shift-source'><span class="ruby-comment"># File cicphash.rb, line 262</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">shift</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> = <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">shift</span>&#x000A;  [<span class="ruby-identifier">value</span>, <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)]&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-sort'>
-                <a name='method-i-sort'></a>
-                <div class='synopsis'>
-                  <span class='name'>sort</span>
-                  <span class='arguments'>(&block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-sort-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-sort-source'><span class="ruby-comment"># File cicphash.rb, line 268</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">sort</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">sort</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">sort</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-to_a'>
-                <a name='method-i-to_a'></a>
-                <div class='synopsis'>
-                  <span class='name'>to_a</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-to_a-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-to_a-source'><span class="ruby-comment"># File cicphash.rb, line 272</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>&#x000A;  <span class="ruby-identifier">array</span> = []&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">array</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>]}&#x000A;  <span class="ruby-identifier">array</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-to_hash'>
-                <a name='method-i-to_hash'></a>
-                <div class='synopsis'>
-                  <span class='name'>to_hash</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-to_hash-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-to_hash-source'><span class="ruby-comment"># File cicphash.rb, line 278</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_hash</span>&#x000A;  <span class="ruby-identifier">hash</span> = {}&#x000A;  <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>}&#x000A;  <span class="ruby-identifier">hash</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-to_s'>
-                <a name='method-i-to_s'></a>
-                <div class='synopsis'>
-                  <span class='name'>to_s</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-to_s-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-to_s-source'><span class="ruby-comment"># File cicphash.rb, line 284</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>&#x000A;  <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">join</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-update'>
-                <a name='method-i-update'></a>
-                <div class='synopsis'>
-                  <span class='name'>update</span>
-                  <span class='arguments'>(hash, &block)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-update-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-update-source'><span class="ruby-comment"># File cicphash.rb, line 288</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>(<span class="ruby-identifier">hash</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;  <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> &#x000A;    <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)&#x000A;      <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>])&#x000A;    <span class="ruby-keyword">else</span> &#x000A;      <span class="ruby-identifier">value</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">self</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-values'>
-                <a name='method-i-values'></a>
-                <div class='synopsis'>
-                  <span class='name'>values</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-values-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-values-source'><span class="ruby-comment"># File cicphash.rb, line 300</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">values</span>&#x000A;  <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">values</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-              <div class='method public-instance' id='method-method-i-values_at'>
-                <a name='method-i-values_at'></a>
-                <div class='synopsis'>
-                  <span class='name'>values_at</span>
-                  <span class='arguments'>(*keys)</span>
-                </div>
-                <div class='description'>
-                  
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('method-i-values_at-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='method-i-values_at-source'><span class="ruby-comment"># File cicphash.rb, line 304</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">values_at</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">keys</span>)&#x000A;  <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>]}&#x000A;<span class="ruby-keyword">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
-    </div>
-    <div id='footer'>
-      <a target="docwin" href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
-    </div>
-  </body>
+<head>
+<title>CICPHash</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+CICPHash
+</h1>
+<ol class='paths'>
+<li>
+<a href="../files/cicphash_rb.html">cicphash.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>Case Insensitive Case Preserving Hash</p>
+
+<p><a href="CICPHash.html"><code>CICPHash</code></a> has the same interface as Hash, but is case insensitive and case preserving.  Any value can be used as a key.  However, you cannot have two keys in the same <a href="CICPHash.html"><code>CICPHash</code></a> that would be the same if when converted to strings would be equal or differing only in case.</p>
+
+<p>For example, all of the following keys would be considered equalivalent: &#39;ab&#39;, &#39;Ab&#39;, &#39;AB&#39;, &#39;aB&#39;, :ab, :Ab, :AB, :aB</p>
+
+<p><a href="CICPHash.html"><code>CICPHash</code></a> uses a last match wins policy.  If an key-value pair is added to a <a href="CICPHash.html"><code>CICPHash</code></a> and a case insensitive variant of the key is already in the hash the instance of the key in the hash becomes the same the most recently added key (and the value is updated to reflect the new value).</p>
+
+<p>You can change the rules determining which keys are equal by modifying the private convert_key method.  By default, it is set to key.to_s.downcase. This method should produce the same output for any keys that you want to consider equal.  For example, if you want :a and :A to be equal but :a to be different than “a”, maybe key.inspect.downcase would work for you.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-5B-5D">[]</a></li>
+<li><a href="#method-c-new">new</a></li>
+</ol>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-3C"><</a></li>
+<li><a href="#method-i-3C-3D"><=</a></li>
+<li><a href="#method-i-3D-3D">==</a></li>
+<li><a href="#method-i-3E">></a></li>
+<li><a href="#method-i-3E-3D">>=</a></li>
+<li><a href="#method-i-5B-5D">[]</a></li>
+<li><a href="#method-i-5B-5D-3D">[]=</a></li>
+<li><a href="#method-i-assoc">assoc</a></li>
+<li><a href="#method-i-clear">clear</a></li>
+<li><a href="#method-i-clone">clone</a></li>
+<li><a href="#method-i-compact">compact</a></li>
+<li><a href="#method-i-compact-21">compact!</a></li>
+<li><a href="#method-i-compare_by_identity">compare_by_identity</a></li>
+<li><a href="#method-i-compare_by_identity-3F">compare_by_identity?</a></li>
+<li><a href="#method-i-default">default</a></li>
+<li><a href="#method-i-default-3D">default=</a></li>
+<li><a href="#method-i-default_proc">default_proc</a></li>
+<li><a href="#method-i-delete">delete</a></li>
+<li><a href="#method-i-delete_if">delete_if</a></li>
+<li><a href="#method-i-dig">dig</a></li>
+<li><a href="#method-i-dup">dup</a></li>
+<li><a href="#method-i-each">each</a></li>
+<li><a href="#method-i-each_key">each_key</a></li>
+<li><a href="#method-i-each_value">each_value</a></li>
+<li><a href="#method-i-empty-3F">empty?</a></li>
+<li><a href="#method-i-except">except</a></li>
+<li><a href="#method-i-fetch">fetch</a></li>
+<li><a href="#method-i-fetch_values">fetch_values</a></li>
+<li><a href="#method-i-flatten">flatten</a></li>
+<li><a href="#method-i-has_key-3F">has_key?</a></li>
+<li><a href="#method-i-has_value-3F">has_value?</a></li>
+<li><a href="#method-i-inspect">inspect</a></li>
+<li><a href="#method-i-invert">invert</a></li>
+<li><a href="#method-i-keep_if">keep_if</a></li>
+<li><a href="#method-i-key">key</a></li>
+<li><a href="#method-i-keys">keys</a></li>
+<li><a href="#method-i-length">length</a></li>
+<li><a href="#method-i-merge">merge</a></li>
+<li><a href="#method-i-rassoc">rassoc</a></li>
+<li><a href="#method-i-rehash">rehash</a></li>
+<li><a href="#method-i-reject">reject</a></li>
+<li><a href="#method-i-reject-21">reject!</a></li>
+<li><a href="#method-i-replace">replace</a></li>
+<li><a href="#method-i-select">select</a></li>
+<li><a href="#method-i-select-21">select!</a></li>
+<li><a href="#method-i-shift">shift</a></li>
+<li><a href="#method-i-slice">slice</a></li>
+<li><a href="#method-i-sort">sort</a></li>
+<li><a href="#method-i-to_a">to_a</a></li>
+<li><a href="#method-i-to_hash">to_hash</a></li>
+<li><a href="#method-i-to_proc">to_proc</a></li>
+<li><a href="#method-i-to_s">to_s</a></li>
+<li><a href="#method-i-transform_keys">transform_keys</a></li>
+<li><a href="#method-i-transform_keys-21">transform_keys!</a></li>
+<li><a href="#method-i-transform_values">transform_values</a></li>
+<li><a href="#method-i-transform_values-21">transform_values!</a></li>
+<li><a href="#method-i-update">update</a></li>
+<li><a href="#method-i-values">values</a></li>
+<li><a href="#method-i-values_at">values_at</a></li>
+</ol>
+</div>
+<div id='context'>
+<div id='includes'>
+<h2>Included modules</h2>
+<ol>
+<li>Enumerable</li>
+</ol>
+</div>
+</div>
+<div id='section'>
+<div id='aliases-list'>
+<h2>Public Instance Aliases</h2>
+<div class='name-list'>
+<table summary='Public Instance Aliases'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>deconstruct_keys</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-to_hash">to_hash</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>each_pair</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-each">each</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>filter!</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-select-21">select!</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>include?</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-has_key-3F">has_key?</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>index</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-key">key</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>indexes</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-values_at">values_at</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>indices</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-values_at">values_at</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>key?</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-has_key-3F">has_key?</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>member?</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-has_key-3F">has_key?</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>merge!</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-update">update</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>size</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-length">length</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>store</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-5B-5D-3D">[]=</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>to_h</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-to_hash">to_hash</a></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>value?</td>
+<td>-&gt;</td>
+<td class='context-item-value'><a href="#method-i-has_value-3F">has_value?</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-5B-5D'>
+<a name='method-c-5B-5D'></a>
+<div class='synopsis'>
+<span class='name'>[]</span><span class='arguments'>(*items)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-5B-5D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-5B-5D-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">24</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">items</span>)&#x000A;<span class="line-num">25</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">%</span> <span class="ruby-value">2</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>&#x000A;<span class="line-num">26</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)&#x000A;<span class="line-num">27</span>       <span class="ruby-identifier">new</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">items</span>.<span class="ruby-identifier">first</span>)&#x000A;<span class="line-num">28</span>     <span class="ruby-keyword">else</span>&#x000A;<span class="line-num">29</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;odd number of arguments for CICPHash&quot;</span>&#x000A;<span class="line-num">30</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">31</span>   <span class="ruby-keyword">else</span>&#x000A;<span class="line-num">32</span>     <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">new</span>&#x000A;<span class="line-num">33</span>     <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>&#x000A;<span class="line-num">34</span>       <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>&#x000A;<span class="line-num">35</span>       <span class="ruby-identifier">key</span> = <span class="ruby-identifier">items</span>.<span class="ruby-identifier">shift</span>&#x000A;<span class="line-num">36</span>       <span class="ruby-identifier">value</span> = <span class="ruby-identifier">items</span>.<span class="ruby-identifier">shift</span>&#x000A;<span class="line-num">37</span>       <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>&#x000A;<span class="line-num">38</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">39</span>     <span class="ruby-identifier">hash</span>&#x000A;<span class="line-num">40</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">41</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-new'>
+<a name='method-c-new'></a>
+<div class='synopsis'>
+<span class='name'>new</span><span class='arguments'>(*default, &block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-new-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">default</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">44</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">block_given?</span>&#x000A;<span class="line-num">45</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;wrong number of arguments&quot;</span>&#x000A;<span class="line-num">46</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">47</span>   <span class="ruby-ivar">@name_hash</span> = {}&#x000A;<span class="line-num">48</span>   <span class="ruby-ivar">@hash</span> = {}&#x000A;<span class="line-num">49</span>   <span class="ruby-ivar">@default</span> = <span class="ruby-identifier">default</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_given?</span>&#x000A;<span class="line-num">50</span>   <span class="ruby-ivar">@default_proc</span> = <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>&#x000A;<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-3C'>
+<a name='method-i-3C'></a>
+<div class='synopsis'>
+<span class='name'><</span><span class='arguments'>(other)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-3C-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-3C-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">362</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">&lt;</span>(<span class="ruby-identifier">other</span>)&#x000A;<span class="line-num">363</span>   <span class="ruby-identifier">to_hash</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">to_hash</span>&#x000A;<span class="line-num">364</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-3C-3D'>
+<a name='method-i-3C-3D'></a>
+<div class='synopsis'>
+<span class='name'><=</span><span class='arguments'>(other)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-3C-3D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-3C-3D-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">366</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">&lt;=</span>(<span class="ruby-identifier">other</span>)&#x000A;<span class="line-num">367</span>   <span class="ruby-identifier">to_hash</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">to_hash</span>&#x000A;<span class="line-num">368</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-3D-3D'>
+<a name='method-i-3D-3D'></a>
+<div class='synopsis'>
+<span class='name'>==</span><span class='arguments'>(hash)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-3D-3D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-3D-3D-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">==</span>(<span class="ruby-identifier">hash</span>)&#x000A;<span class="line-num">54</span>   <span class="ruby-identifier">to_hash</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">to_hash</span>&#x000A;<span class="line-num">55</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-3E'>
+<a name='method-i-3E'></a>
+<div class='synopsis'>
+<span class='name'>></span><span class='arguments'>(other)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-3E-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-3E-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">354</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">&gt;</span>(<span class="ruby-identifier">other</span>)&#x000A;<span class="line-num">355</span>   <span class="ruby-identifier">to_hash</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">to_hash</span>&#x000A;<span class="line-num">356</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-3E-3D'>
+<a name='method-i-3E-3D'></a>
+<div class='synopsis'>
+<span class='name'>>=</span><span class='arguments'>(other)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-3E-3D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-3E-3D-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">358</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">&gt;=</span>(<span class="ruby-identifier">other</span>)&#x000A;<span class="line-num">359</span>   <span class="ruby-identifier">to_hash</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">to_hash</span>&#x000A;<span class="line-num">360</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-5B-5D'>
+<a name='method-i-5B-5D'></a>
+<div class='synopsis'>
+<span class='name'>[]</span><span class='arguments'>(key)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-5B-5D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-5B-5D-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">58</span>   <span class="ruby-identifier">new_key</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">59</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">new_key</span>)&#x000A;<span class="line-num">60</span>     <span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">new_key</span>]&#x000A;<span class="line-num">61</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@default_proc</span>&#x000A;<span class="line-num">62</span>     <span class="ruby-ivar">@default_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">63</span>   <span class="ruby-keyword">else</span>&#x000A;<span class="line-num">64</span>     <span class="ruby-ivar">@default</span>&#x000A;<span class="line-num">65</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">66</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-5B-5D-3D'>
+<a name='method-i-5B-5D-3D'></a>
+<div class='synopsis'>
+<span class='name'>[]=</span><span class='arguments'>(key, value)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-5B-5D-3D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-5B-5D-3D-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">68</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]=</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)&#x000A;<span class="line-num">69</span>   <span class="ruby-identifier">new_key</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">70</span>   <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-identifier">key</span>&#x000A;<span class="line-num">71</span>   <span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-identifier">value</span>&#x000A;<span class="line-num">72</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-assoc'>
+<a name='method-i-assoc'></a>
+<div class='synopsis'>
+<span class='name'>assoc</span><span class='arguments'>(obj)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-assoc-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-assoc-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">301</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assoc</span>(<span class="ruby-identifier">obj</span>)&#x000A;<span class="line-num">302</span>   <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">obj</span>)&#x000A;<span class="line-num">303</span>   <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;<span class="line-num">304</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">k</span>) <span class="ruby-operator">==</span> <span class="ruby-identifier">obj</span>&#x000A;<span class="line-num">305</span>       <span class="ruby-keyword">return</span> [<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>]&#x000A;<span class="line-num">306</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">307</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">308</span>   <span class="ruby-keyword">nil</span>&#x000A;<span class="line-num">309</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-clear'>
+<a name='method-i-clear'></a>
+<div class='synopsis'>
+<span class='name'>clear</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-clear-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-clear-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">75</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">clear</span>&#x000A;<span class="line-num">76</span>   <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">clear</span>&#x000A;<span class="line-num">77</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">clear</span>&#x000A;<span class="line-num">78</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-clone'>
+<a name='method-i-clone'></a>
+<div class='synopsis'>
+<span class='name'>clone</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-clone-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-clone-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">80</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">clone</span>&#x000A;<span class="line-num">81</span>   <span class="ruby-identifier">s</span> = <span class="ruby-keyword">super</span>&#x000A;<span class="line-num">82</span>   <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@hash</span>, <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">clone</span>)&#x000A;<span class="line-num">83</span>   <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@name_hash</span>, <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">clone</span>)&#x000A;<span class="line-num">84</span>   <span class="ruby-identifier">s</span>&#x000A;<span class="line-num">85</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-compact'>
+<a name='method-i-compact'></a>
+<div class='synopsis'>
+<span class='name'>compact</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-compact-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-compact-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">390</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">compact</span>&#x000A;<span class="line-num">391</span>   <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">dup</span>&#x000A;<span class="line-num">392</span>   <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">compact!</span>&#x000A;<span class="line-num">393</span>   <span class="ruby-identifier">hash</span>&#x000A;<span class="line-num">394</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-compact-21'>
+<a name='method-i-compact-21'></a>
+<div class='synopsis'>
+<span class='name'>compact!</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-compact-21-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-compact-21-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">396</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">compact!</span>&#x000A;<span class="line-num">397</span>   <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">to_hash</span>&#x000A;<span class="line-num">398</span>   <span class="ruby-identifier">replace</span>(<span class="ruby-identifier">hash</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">compact!</span>&#x000A;<span class="line-num">399</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-compare_by_identity'>
+<a name='method-i-compare_by_identity'></a>
+<div class='synopsis'>
+<span class='name'>compare_by_identity</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-compare_by_identity-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-compare_by_identity-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">293</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">compare_by_identity</span>&#x000A;<span class="line-num">294</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">TypeError</span>, <span class="ruby-string">&quot;CICPHash cannot compare by identity, use regular Hash&quot;</span>&#x000A;<span class="line-num">295</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-compare_by_identity-3F'>
+<a name='method-i-compare_by_identity-3F'></a>
+<div class='synopsis'>
+<span class='name'>compare_by_identity?</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-compare_by_identity-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-compare_by_identity-3F-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">297</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">compare_by_identity?</span>&#x000A;<span class="line-num">298</span>   <span class="ruby-keyword">false</span>&#x000A;<span class="line-num">299</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-default'>
+<a name='method-i-default'></a>
+<div class='synopsis'>
+<span class='name'>default</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-default-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-default-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">87</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default</span>&#x000A;<span class="line-num">88</span>   <span class="ruby-ivar">@default</span>&#x000A;<span class="line-num">89</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-default-3D'>
+<a name='method-i-default-3D'></a>
+<div class='synopsis'>
+<span class='name'>default=</span><span class='arguments'>(value)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-default-3D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-default-3D-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">91</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default=</span>(<span class="ruby-identifier">value</span>)&#x000A;<span class="line-num">92</span>   <span class="ruby-ivar">@default</span> = <span class="ruby-identifier">value</span>&#x000A;<span class="line-num">93</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-default_proc'>
+<a name='method-i-default_proc'></a>
+<div class='synopsis'>
+<span class='name'>default_proc</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-default_proc-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-default_proc-source'>   <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">95</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default_proc</span>&#x000A;<span class="line-num">96</span>   <span class="ruby-ivar">@default_proc</span>&#x000A;<span class="line-num">97</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-delete'>
+<a name='method-i-delete'></a>
+<div class='synopsis'>
+<span class='name'>delete</span><span class='arguments'>(key)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-delete-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-delete-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num"> 99</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">100</span>   <span class="ruby-identifier">new_key</span> = <span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">101</span>   <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">new_key</span>)&#x000A;<span class="line-num">102</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">new_key</span>)&#x000A;<span class="line-num">103</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-delete_if'>
+<a name='method-i-delete_if'></a>
+<div class='synopsis'>
+<span class='name'>delete_if</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-delete_if-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-delete_if-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">105</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_if</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">106</span>   <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="line-num">107</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>) <span class="ruby-operator">:</span> (<span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>)}&#x000A;<span class="line-num">108</span>   <span class="ruby-identifier">hash</span>&#x000A;<span class="line-num">109</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-dig'>
+<a name='method-i-dig'></a>
+<div class='synopsis'>
+<span class='name'>dig</span><span class='arguments'>(arg, *a)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-dig-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-dig-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">370</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dig</span>(<span class="ruby-identifier">arg</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;<span class="line-num">371</span>   <span class="ruby-identifier">h</span> = <span class="ruby-keyword">self</span>[<span class="ruby-identifier">arg</span>]&#x000A;<span class="line-num">372</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">empty?</span>&#x000A;<span class="line-num">373</span>     <span class="ruby-identifier">h</span>&#x000A;<span class="line-num">374</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">h</span>.<span class="ruby-identifier">nil?</span>&#x000A;<span class="line-num">375</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">TypeError</span>, <span class="ruby-node">&quot;#{h.class} does not have #dig method&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">h</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:dig</span>)&#x000A;<span class="line-num">376</span>     <span class="ruby-identifier">h</span>.<span class="ruby-identifier">dig</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>) &#x000A;<span class="line-num">377</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">378</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-dup'>
+<a name='method-i-dup'></a>
+<div class='synopsis'>
+<span class='name'>dup</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-dup-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-dup-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">111</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dup</span>&#x000A;<span class="line-num">112</span>   <span class="ruby-identifier">s</span> = <span class="ruby-keyword">super</span>&#x000A;<span class="line-num">113</span>   <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@hash</span>, <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">dup</span>)&#x000A;<span class="line-num">114</span>   <span class="ruby-identifier">s</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@name_hash</span>, <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">dup</span>)&#x000A;<span class="line-num">115</span>   <span class="ruby-identifier">s</span>&#x000A;<span class="line-num">116</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-each'>
+<a name='method-i-each'></a>
+<div class='synopsis'>
+<span class='name'>each</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-each-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-each-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">118</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each</span>&#x000A;<span class="line-num">119</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">value</span> }&#x000A;<span class="line-num">120</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-each_key'>
+<a name='method-i-each_key'></a>
+<div class='synopsis'>
+<span class='name'>each_key</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-each_key-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-each_key-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">123</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each_key</span>&#x000A;<span class="line-num">124</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each_key</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">key</span>] }&#x000A;<span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-each_value'>
+<a name='method-i-each_value'></a>
+<div class='synopsis'>
+<span class='name'>each_value</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-each_value-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-each_value-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">127</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each_value</span>&#x000A;<span class="line-num">128</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">each_value</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-identifier">value</span> }&#x000A;<span class="line-num">129</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-empty-3F'>
+<a name='method-i-empty-3F'></a>
+<div class='synopsis'>
+<span class='name'>empty?</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-empty-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-empty-3F-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">131</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">empty?</span>&#x000A;<span class="line-num">132</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">empty?</span>&#x000A;<span class="line-num">133</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-except'>
+<a name='method-i-except'></a>
+<div class='synopsis'>
+<span class='name'>except</span><span class='arguments'>(*a)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-except-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-except-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">435</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">except</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;<span class="line-num">436</span>   <span class="ruby-identifier">h</span> = <span class="ruby-identifier">dup</span>&#x000A;<span class="line-num">437</span>   <span class="ruby-identifier">a</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>)}&#x000A;<span class="line-num">438</span>   <span class="ruby-identifier">h</span>&#x000A;<span class="line-num">439</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-fetch'>
+<a name='method-i-fetch'></a>
+<div class='synopsis'>
+<span class='name'>fetch</span><span class='arguments'>(key, *default, &block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-fetch-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-fetch-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">135</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fetch</span>(<span class="ruby-identifier">key</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">default</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">136</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;wrong number of arguments (#{default.length+1} for 2)&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>&#x000A;<span class="line-num">137</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">138</span>     <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>]&#x000A;<span class="line-num">139</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block_given?</span>&#x000A;<span class="line-num">140</span>     <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">141</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>&#x000A;<span class="line-num">142</span>     <span class="ruby-identifier">default</span>.<span class="ruby-identifier">first</span>&#x000A;<span class="line-num">143</span>   <span class="ruby-keyword">else</span>&#x000A;<span class="line-num">144</span>     <span class="ruby-identifier">error_class</span> = <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&lt;</span> <span class="ruby-string">&#39;1.9&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-constant">IndexError</span> <span class="ruby-operator">:</span> <span class="ruby-constant">KeyError</span>&#x000A;<span class="line-num">145</span>     <span class="ruby-identifier">raise</span> <span class="ruby-identifier">error_class</span>, <span class="ruby-string">&quot;key not found&quot;</span>&#x000A;<span class="line-num">146</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">147</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-fetch_values'>
+<a name='method-i-fetch_values'></a>
+<div class='synopsis'>
+<span class='name'>fetch_values</span><span class='arguments'>(*a)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-fetch_values-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-fetch_values-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">380</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fetch_values</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;<span class="line-num">381</span>   <span class="ruby-identifier">a</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">x</span>)}&#x000A;<span class="line-num">382</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-flatten'>
+<a name='method-i-flatten'></a>
+<div class='synopsis'>
+<span class='name'>flatten</span><span class='arguments'>(*a)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-flatten-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-flatten-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">313</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">flatten</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;<span class="line-num">314</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">empty?</span>&#x000A;<span class="line-num">315</span>     <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">flatten</span>(<span class="ruby-value">1</span>)&#x000A;<span class="line-num">316</span>   <span class="ruby-keyword">else</span>&#x000A;<span class="line-num">317</span>     <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">flatten</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;<span class="line-num">318</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">319</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-has_key-3F'>
+<a name='method-i-has_key-3F'></a>
+<div class='synopsis'>
+<span class='name'>has_key?</span><span class='arguments'>(key)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-has_key-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-has_key-3F-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">149</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">has_key?</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">150</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">convert_key</span>(<span class="ruby-identifier">key</span>))&#x000A;<span class="line-num">151</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-has_value-3F'>
+<a name='method-i-has_value-3F'></a>
+<div class='synopsis'>
+<span class='name'>has_value?</span><span class='arguments'>(value)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-has_value-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-has_value-3F-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">156</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">has_value?</span>(<span class="ruby-identifier">value</span>)&#x000A;<span class="line-num">157</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">has_value?</span>(<span class="ruby-identifier">value</span>)&#x000A;<span class="line-num">158</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-inspect'>
+<a name='method-i-inspect'></a>
+<div class='synopsis'>
+<span class='name'>inspect</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-inspect-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-inspect-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">175</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>&#x000A;<span class="line-num">176</span>   <span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">inspect</span>&#x000A;<span class="line-num">177</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-invert'>
+<a name='method-i-invert'></a>
+<div class='synopsis'>
+<span class='name'>invert</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-invert-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-invert-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">179</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">invert</span>&#x000A;<span class="line-num">180</span>   <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="line-num">181</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">value</span>] = <span class="ruby-identifier">key</span>}&#x000A;<span class="line-num">182</span>   <span class="ruby-identifier">hash</span>&#x000A;<span class="line-num">183</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-keep_if'>
+<a name='method-i-keep_if'></a>
+<div class='synopsis'>
+<span class='name'>keep_if</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-keep_if-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-keep_if-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">321</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">keep_if</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">322</span>   <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;<span class="line-num">323</span>     <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)&#x000A;<span class="line-num">324</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">325</span>   <span class="ruby-keyword">self</span>&#x000A;<span class="line-num">326</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-key'>
+<a name='method-i-key'></a>
+<div class='synopsis'>
+<span class='name'>key</span><span class='arguments'>(value)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-key-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-key-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">162</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">key</span>(<span class="ruby-identifier">value</span>)&#x000A;<span class="line-num">163</span>   <span class="ruby-ivar">@name_hash</span>[<span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">key</span>(<span class="ruby-identifier">value</span>)]&#x000A;<span class="line-num">164</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-keys'>
+<a name='method-i-keys'></a>
+<div class='synopsis'>
+<span class='name'>keys</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-keys-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-keys-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">185</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">keys</span>&#x000A;<span class="line-num">186</span>   <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">values</span>&#x000A;<span class="line-num">187</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-length'>
+<a name='method-i-length'></a>
+<div class='synopsis'>
+<span class='name'>length</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-length-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-length-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">189</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">length</span>&#x000A;<span class="line-num">190</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">length</span>&#x000A;<span class="line-num">191</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-merge'>
+<a name='method-i-merge'></a>
+<div class='synopsis'>
+<span class='name'>merge</span><span class='arguments'>(hash, &block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-merge-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-merge-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">194</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">merge</span>(<span class="ruby-identifier">hash</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">195</span>   <span class="ruby-identifier">new_hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-keyword">self</span>)&#x000A;<span class="line-num">196</span>   <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> &#x000A;<span class="line-num">197</span>     <span class="ruby-identifier">new_hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">new_hash</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">198</span>       <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">new_hash</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>])&#x000A;<span class="line-num">199</span>     <span class="ruby-keyword">else</span> &#x000A;<span class="line-num">200</span>       <span class="ruby-identifier">value</span>&#x000A;<span class="line-num">201</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">202</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">203</span>   <span class="ruby-identifier">new_hash</span>&#x000A;<span class="line-num">204</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-rassoc'>
+<a name='method-i-rassoc'></a>
+<div class='synopsis'>
+<span class='name'>rassoc</span><span class='arguments'>(obj)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-rassoc-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-rassoc-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">328</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">rassoc</span>(<span class="ruby-identifier">obj</span>)&#x000A;<span class="line-num">329</span>   <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;<span class="line-num">330</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">v</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">obj</span>&#x000A;<span class="line-num">331</span>       <span class="ruby-keyword">return</span> [<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>]&#x000A;<span class="line-num">332</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">333</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">334</span>   <span class="ruby-keyword">nil</span>&#x000A;<span class="line-num">335</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-rehash'>
+<a name='method-i-rehash'></a>
+<div class='synopsis'>
+<span class='name'>rehash</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-rehash-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-rehash-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">206</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">rehash</span>&#x000A;<span class="line-num">207</span>   <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>&#x000A;<span class="line-num">208</span>     <span class="ruby-identifier">new_key</span> = <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span> &#x000A;<span class="line-num">209</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_key</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">key</span>&#x000A;<span class="line-num">210</span>       <span class="ruby-ivar">@name_hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">211</span>       <span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">new_key</span>] = <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">212</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">213</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">214</span>   <span class="ruby-keyword">self</span>&#x000A;<span class="line-num">215</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-reject'>
+<a name='method-i-reject'></a>
+<div class='synopsis'>
+<span class='name'>reject</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-reject-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-reject-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">217</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">reject</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">218</span>   <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="line-num">219</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)}&#x000A;<span class="line-num">220</span>   <span class="ruby-identifier">hash</span>&#x000A;<span class="line-num">221</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-reject-21'>
+<a name='method-i-reject-21'></a>
+<div class='synopsis'>
+<span class='name'>reject!</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-reject-21-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-reject-21-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">223</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">reject!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">224</span>   <span class="ruby-identifier">hash</span> = <span class="ruby-constant">CICPHash</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="line-num">225</span>   <span class="ruby-identifier">changes</span> = <span class="ruby-keyword">false</span>&#x000A;<span class="line-num">226</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>) <span class="ruby-operator">?</span> (<span class="ruby-identifier">changes</span> = <span class="ruby-keyword">true</span>; <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)) <span class="ruby-operator">:</span> (<span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>)}&#x000A;<span class="line-num">227</span>   <span class="ruby-identifier">changes</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">hash</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>&#x000A;<span class="line-num">228</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-replace'>
+<a name='method-i-replace'></a>
+<div class='synopsis'>
+<span class='name'>replace</span><span class='arguments'>(hash)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-replace-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-replace-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">230</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">replace</span>(<span class="ruby-identifier">hash</span>)&#x000A;<span class="line-num">231</span>   <span class="ruby-identifier">clear</span>&#x000A;<span class="line-num">232</span>   <span class="ruby-identifier">update</span>(<span class="ruby-identifier">hash</span>)&#x000A;<span class="line-num">233</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-select'>
+<a name='method-i-select'></a>
+<div class='synopsis'>
+<span class='name'>select</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-select-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-select-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">235</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">select</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">236</span>   <span class="ruby-identifier">array</span> = []&#x000A;<span class="line-num">237</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">array</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)}&#x000A;<span class="line-num">238</span>   <span class="ruby-identifier">array</span>&#x000A;<span class="line-num">239</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-select-21'>
+<a name='method-i-select-21'></a>
+<div class='synopsis'>
+<span class='name'>select!</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-select-21-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-select-21-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">337</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">select!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">338</span>   <span class="ruby-identifier">mod</span> = <span class="ruby-keyword">false</span>&#x000A;<span class="line-num">339</span>   <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>&#x000A;<span class="line-num">340</span>     <span class="ruby-keyword">unless</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)&#x000A;<span class="line-num">341</span>       <span class="ruby-identifier">mod</span> = <span class="ruby-keyword">true</span>&#x000A;<span class="line-num">342</span>       <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>)&#x000A;<span class="line-num">343</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">344</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">345</span>   <span class="ruby-keyword">self</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">mod</span>&#x000A;<span class="line-num">346</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-shift'>
+<a name='method-i-shift'></a>
+<div class='synopsis'>
+<span class='name'>shift</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-shift-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-shift-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">241</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">shift</span>&#x000A;<span class="line-num">242</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>&#x000A;<span class="line-num">243</span>   <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> = <span class="ruby-ivar">@name_hash</span>.<span class="ruby-identifier">shift</span>&#x000A;<span class="line-num">244</span>   [<span class="ruby-identifier">value</span>, <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)]&#x000A;<span class="line-num">245</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-slice'>
+<a name='method-i-slice'></a>
+<div class='synopsis'>
+<span class='name'>slice</span><span class='arguments'>(*a)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-slice-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-slice-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">411</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">slice</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)&#x000A;<span class="line-num">412</span>   <span class="ruby-identifier">h</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">new</span>&#x000A;<span class="line-num">413</span>   <span class="ruby-identifier">a</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-keyword">self</span>[<span class="ruby-identifier">k</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">k</span>)}&#x000A;<span class="line-num">414</span>   <span class="ruby-identifier">h</span>&#x000A;<span class="line-num">415</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-sort'>
+<a name='method-i-sort'></a>
+<div class='synopsis'>
+<span class='name'>sort</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-sort-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-sort-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">247</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">sort</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">248</span>   <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">sort</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">sort</span>&#x000A;<span class="line-num">249</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to_a'>
+<a name='method-i-to_a'></a>
+<div class='synopsis'>
+<span class='name'>to_a</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_a-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_a-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">251</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_a</span>&#x000A;<span class="line-num">252</span>   <span class="ruby-identifier">array</span> = []&#x000A;<span class="line-num">253</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">array</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>]}&#x000A;<span class="line-num">254</span>   <span class="ruby-identifier">array</span>&#x000A;<span class="line-num">255</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to_hash'>
+<a name='method-i-to_hash'></a>
+<div class='synopsis'>
+<span class='name'>to_hash</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_hash-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_hash-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">257</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_hash</span>&#x000A;<span class="line-num">258</span>   <span class="ruby-identifier">hash</span> = {}&#x000A;<span class="line-num">259</span>   <span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>}&#x000A;<span class="line-num">260</span>   <span class="ruby-identifier">hash</span>&#x000A;<span class="line-num">261</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to_proc'>
+<a name='method-i-to_proc'></a>
+<div class='synopsis'>
+<span class='name'>to_proc</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_proc-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_proc-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">384</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_proc</span>&#x000A;<span class="line-num">385</span>   <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">x</span>]}&#x000A;<span class="line-num">386</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to_s'>
+<a name='method-i-to_s'></a>
+<div class='synopsis'>
+<span class='name'>to_s</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_s-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_s-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">263</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>&#x000A;<span class="line-num">264</span>   <span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">join</span>&#x000A;<span class="line-num">265</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-transform_keys'>
+<a name='method-i-transform_keys'></a>
+<div class='synopsis'>
+<span class='name'>transform_keys</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-transform_keys-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-transform_keys-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">417</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">transform_keys</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">418</span>   <span class="ruby-identifier">dup</span>.<span class="ruby-identifier">transform_keys!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">419</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-transform_keys-21'>
+<a name='method-i-transform_keys-21'></a>
+<div class='synopsis'>
+<span class='name'>transform_keys!</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-transform_keys-21-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-transform_keys-21-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">421</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">transform_keys!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">422</span>   <span class="ruby-identifier">replace</span>(<span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">transform_keys!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>))&#x000A;<span class="line-num">423</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-transform_values'>
+<a name='method-i-transform_values'></a>
+<div class='synopsis'>
+<span class='name'>transform_values</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-transform_values-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-transform_values-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">401</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">transform_values</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">402</span>   <span class="ruby-identifier">dup</span>.<span class="ruby-identifier">transform_values!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">403</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-transform_values-21'>
+<a name='method-i-transform_values-21'></a>
+<div class='synopsis'>
+<span class='name'>transform_values!</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-transform_values-21-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-transform_values-21-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">405</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">transform_values!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">406</span>   <span class="ruby-identifier">replace</span>(<span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">transform_values!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>))&#x000A;<span class="line-num">407</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-update'>
+<a name='method-i-update'></a>
+<div class='synopsis'>
+<span class='name'>update</span><span class='arguments'>(hash, &block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-update-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-update-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">267</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update</span>(<span class="ruby-identifier">hash</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;<span class="line-num">268</span>   <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> &#x000A;<span class="line-num">269</span>     <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>)&#x000A;<span class="line-num">270</span>       <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">key</span>, <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>])&#x000A;<span class="line-num">271</span>     <span class="ruby-keyword">else</span> &#x000A;<span class="line-num">272</span>       <span class="ruby-identifier">value</span>&#x000A;<span class="line-num">273</span>     <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">274</span>   <span class="ruby-keyword">end</span>&#x000A;<span class="line-num">275</span>   <span class="ruby-keyword">self</span>&#x000A;<span class="line-num">276</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-values'>
+<a name='method-i-values'></a>
+<div class='synopsis'>
+<span class='name'>values</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-values-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-values-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">279</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">values</span>&#x000A;<span class="line-num">280</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">values</span>&#x000A;<span class="line-num">281</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-values_at'>
+<a name='method-i-values_at'></a>
+<div class='synopsis'>
+<span class='name'>values_at</span><span class='arguments'>(*keys)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-values_at-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-values_at-source'>    <span class="ruby-comment"># File cicphash.rb</span>&#x000A;<span class="line-num">283</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">values_at</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">keys</span>)&#x000A;<span class="line-num">284</span>   <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">key</span>]}&#x000A;<span class="line-num">285</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
 </html>
