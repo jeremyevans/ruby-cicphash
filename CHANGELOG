@@ -1,0 +1,15 @@
+=== master
+
+* Support new Hash instance methods added in 1.9 - 3.0 (jeremyevans)
+
+* Make sure CICPHash has the same interface as Hash in all Ruby versions (jeremyevans)
+
+=== 1.1.0 (2012-09-04)
+
+* Support new Hash instance methods added in 1.9 (jeremyevans)
+
+* Fix dup and clone to return copies (jeremyevans)
+
+=== 1.0.0 (2007-08-13)
+
+* Initial release (jeremyevans)
