@@ -23,7 +23,7 @@ RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'cicphash.rb']
 rdoc_task_class.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
   rdoc.options += RDOC_OPTS
-  rdoc.rdoc_files.add ["cicphash.rb"]
+  rdoc.rdoc_files.add %w"cicphash.rb README.rdoc CHANGELOG MIT-LICENSE"
 end
 
 desc "Package ruby-cicphash"
