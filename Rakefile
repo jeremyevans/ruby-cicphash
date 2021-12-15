@@ -33,5 +33,5 @@ end
 
 desc "Run tests"
 task :default do
-  sh %{#{FileUtils::RUBY} test/test_cicphash.rb}
+  sh %{#{FileUtils::RUBY} #{"-w" if RUBY_VERSION >= '3'} test/test_cicphash.rb}
 end

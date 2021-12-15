@@ -622,7 +622,7 @@ class CICPHashTest < Minitest::Test
     def test_transform_keys!
       map = {'AB'=>:XY, :cd=>'DC', 3=>'5'}
       dh = @fh.dup
-      fh = @fh.transform_keys!{|k| map[k]}
+      @fh.transform_keys!{|k| map[k]}
       assert_equal(false, dh == @fh)
       assert_equal(1, @fh['XY'])
       assert_equal(2, @fh[:dc])
