@@ -102,9 +102,9 @@ class CICPHash
     @hash.delete(new_key)
   end
   
-  def delete_if(&block)
+  def delete_if
     hash = self.class.new
-    each{|key, value| block.call(key, value) ? delete(key) : (hash[key] = value)}
+    each{|key, value| yield(key, value) ? delete(key) : (hash[key] = value)}
     hash
   end
 
@@ -132,12 +132,12 @@ class CICPHash
     @hash.empty?
   end
   
-  def fetch(key, *default, &block)
+  def fetch(key, *default)
     raise ArgumentError, "wrong number of arguments (#{default.length+1} for 2)" if default.length > 1
     if include?(key)
       self[key]
     elsif block_given?
-      block.call(key)
+      yield key
     elsif default.length == 1
       default.first
     else
@@ -191,11 +191,11 @@ class CICPHash
   end
   alias size length
   
-  def merge(hash, &block)
+  def merge(hash)
     new_hash = self.class.new.merge!(self)
     hash.each do |key, value| 
       new_hash[key] = if block_given? && new_hash.include?(key)
-        block.call(key, new_hash[key], hash[key])
+         yield key, new_hash[key], hash[key]
       else 
         value
       end
@@ -214,16 +214,16 @@ class CICPHash
     self
   end
   
-  def reject(&block)
+  def reject
     hash = self.class.new
-    each{|key, value| hash[key] = self[key] unless block.call(key, value)}
+    each{|key, value| hash[key] = self[key] unless yield(key, value)}
     hash
   end
   
-  def reject!(&block)
+  def reject!
     hash = self.class.new
     changes = false
-    each{|key, value| block.call(key, value) ? (changes = true; delete(key)) : (hash[key] = value)}
+    each{|key, value| yield(key, value) ? (changes = true; delete(key)) : (hash[key] = value)}
     changes ? hash : nil
   end
     
@@ -233,15 +233,15 @@ class CICPHash
   end
   
   if RUBY_VERSION >= '1.9'
-    def select(&block)
+    def select
       hash = self.class.new
-      each{|key, value| hash[key] = value if block.call(key, value)}
+      each{|key, value| hash[key] = value if yield(key, value)}
       hash 
     end
   else
-    def select(&block)
+    def select
       array = []
-      each{|key, value| array << [key, value] if block.call(key, value)}
+      each{|key, value| array << [key, value] if yield(key, value)}
       array
     end
   end
@@ -276,10 +276,10 @@ class CICPHash
     end
   end
   
-  def update(hash, &block)
+  def update(hash)
     hash.each do |key, value| 
       self[key] = if block_given? && include?(key)
-        block.call(key, self[key], hash[key])
+        yield key, self[key], hash[key]
       else 
         value
       end
