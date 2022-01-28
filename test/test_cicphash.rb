@@ -253,13 +253,24 @@ class CICPHashTest < Minitest::Test
     end
   end
   
-  def test_inspect_and_to_s
+  def test_inspect
     assert_equal '{}', CICPHash[].inspect
-    assert_equal '', CICPHash[].to_s
     assert_equal '{1=>2}', CICPHash[1=>2].inspect
-    assert_equal '12', CICPHash[1=>2].to_s
     assert ['{:ab=>"CD", [:"3"]=>4}', '{[:"3"]=>4, :ab=>"CD"}'].include?(CICPHash[:ab=>'CD', [:'3']=>4].inspect)
-    assert ['abCD34', '34abCD'].include?(CICPHash[:ab=>'CD', [:'3']=>4].to_s)
+  end
+  
+  if RUBY_VERSION >= '1.9'
+    def test_to_s
+      assert_equal '{}', CICPHash[].to_s
+      assert_equal '{1=>2}', CICPHash[1=>2].to_s
+      assert_equal '{:ab=>"CD", [:"3"]=>4}', CICPHash[:ab=>'CD', [:'3']=>4].to_s
+    end
+  else
+    def test_to_s
+      assert_equal '', CICPHash[].to_s
+      assert_equal '12', CICPHash[1=>2].to_s
+      assert ['abCD34', '34abCD'].include?(CICPHash[:ab=>'CD', [:'3']=>4].to_s)
+    end
   end
   
   def test_invert

@@ -260,8 +260,12 @@ class CICPHash
     hash
   end
   
-  def to_s
-    to_a.join
+  if RUBY_VERSION >= '1.9'
+    alias to_s inspect
+  else
+    def to_s
+      to_a.join
+    end
   end
   
   def update(hash, &block)
