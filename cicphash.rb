@@ -103,7 +103,7 @@ class CICPHash
   end
   
   def delete_if(&block)
-    hash = CICPHash.new
+    hash = self.class.new
     each{|key, value| block.call(key, value) ? delete(key) : (hash[key] = value)}
     hash
   end
@@ -177,7 +177,7 @@ class CICPHash
   end
   
   def invert
-    hash = CICPHash.new
+    hash = self.class.new
     each{|key, value| hash[value] = key}
     hash
   end
@@ -192,7 +192,7 @@ class CICPHash
   alias size length
   
   def merge(hash, &block)
-    new_hash = CICPHash.new.merge!(self)
+    new_hash = self.class.new.merge!(self)
     hash.each do |key, value| 
       new_hash[key] = if block_given? && new_hash.include?(key)
         block.call(key, new_hash[key], hash[key])
@@ -215,13 +215,13 @@ class CICPHash
   end
   
   def reject(&block)
-    hash = CICPHash.new
+    hash = self.class.new
     each{|key, value| hash[key] = self[key] unless block.call(key, value)}
     hash
   end
   
   def reject!(&block)
-    hash = CICPHash.new
+    hash = self.class.new
     changes = false
     each{|key, value| block.call(key, value) ? (changes = true; delete(key)) : (hash[key] = value)}
     changes ? hash : nil
@@ -234,7 +234,7 @@ class CICPHash
   
   if RUBY_VERSION >= '1.9'
     def select(&block)
-      hash = CICPHash.new
+      hash = self.class.new
       each{|key, value| hash[key] = value if block.call(key, value)}
       hash 
     end

@@ -1,5 +1,7 @@
 === master
 
+* Return instance of current class instead of CICPHash for methods that returned CICPHash (jeremyevans)
+
 * Fix CICPHash#select to return CICPHash instance on Ruby 1.9+ (jeremyevans)
 
 * Fix CICPHash#to_s to operate like #inspect on Ruby 1.9+ (jeremyevans)
