@@ -360,13 +360,24 @@ class CICPHashTest < Minitest::Test
     assert_equal Hash[], @fh.replace(Hash[])
   end
   
-  def test_select
-    assert_equal [], @h.select{true}
-    assert_equal [], @h.select{false}
-    assert_equal [[3, 4], ["AB", 1], [:cd, 2]], @fh.select{true}.sort_by{|k,v| k.to_s}
-    assert_equal [], @fh.select{false}
-    assert_equal [[:cd,2]], @fh.select{|k,v| k.is_a?(Symbol)}
-    assert_equal [[3,4]], @fh.select{|k,v| v == 4}
+  if RUBY_VERSION >=  '1.9'
+    def test_select
+      assert_equal({}, @h.select{true})
+      assert_equal({}, @h.select{false})
+      assert_equal({3 => 4, "AB" => 1, :cd => 2}, @fh.select{true})
+      assert_equal({}, @fh.select{false})
+      assert_equal({:cd => 2}, @fh.select{|k,v| k.is_a?(Symbol)})
+      assert_equal({3 => 4}, @fh.select{|k,v| v == 4})
+    end
+  else
+    def test_select
+      assert_equal [], @h.select{true}
+      assert_equal [], @h.select{false}
+      assert_equal [[3, 4], ["AB", 1], [:cd, 2]], @fh.select{true}.sort_by{|k,v| k.to_s}
+      assert_equal [], @fh.select{false}
+      assert_equal [[:cd,2]], @fh.select{|k,v| k.is_a?(Symbol)}
+      assert_equal [[3,4]], @fh.select{|k,v| v == 4}
+    end
   end
   
   def test_shift

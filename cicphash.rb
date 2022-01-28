@@ -232,10 +232,18 @@ class CICPHash
     update(hash)
   end
   
-  def select(&block)
-    array = []
-    each{|key, value| array << [key, value] if block.call(key, value)}
-    array
+  if RUBY_VERSION >= '1.9'
+    def select(&block)
+      hash = CICPHash.new
+      each{|key, value| hash[key] = value if block.call(key, value)}
+      hash 
+    end
+  else
+    def select(&block)
+      array = []
+      each{|key, value| array << [key, value] if block.call(key, value)}
+      array
+    end
   end
   
   def shift
