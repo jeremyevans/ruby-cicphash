@@ -663,8 +663,8 @@ class CICPHashTest < Minitest::Test
 
   if RUBY_VERSION >= '2.7'
     def test_deconstruct_keys
-      assert_equal(@fh.to_hash, @fh.deconstruct_keys)
-      assert_equal(Hash, @fh.deconstruct_keys.class)
+      assert_equal(@fh.to_hash, @fh.deconstruct_keys([]))
+      assert_equal(Hash, @fh.deconstruct_keys([]).class)
     end
   end
 

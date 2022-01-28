@@ -440,7 +440,9 @@ class CICPHash
   end
 
   if RUBY_VERSION >= '2.7'
-    alias deconstruct_keys to_hash
+    def deconstruct_keys(keys)
+      to_hash
+    end
   end
 
   if RUBY_VERSION >= '3.0'

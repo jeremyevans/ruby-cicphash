@@ -1,5 +1,7 @@
 === master
 
+* Fix CICPHash#deconstruct_keys to require an argument (jeremyevans)
+
 * Return instance of current class instead of CICPHash for methods that returned CICPHash (jeremyevans)
 
 * Fix CICPHash#select to return CICPHash instance on Ruby 1.9+ (jeremyevans)
