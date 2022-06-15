@@ -1,3 +1,14 @@
+if ENV.delete('COVERAGE')
+  require 'simplecov'
+
+  SimpleCov.start do
+    enable_coverage :branch
+    add_filter "/test/"
+    add_group('Missing'){|src| src.covered_percent < 100}
+    add_group('Covered'){|src| src.covered_percent == 100}
+  end
+end
+
 $: << File.dirname(File.dirname(File.expand_path(__FILE__)))
 require 'cicphash'
 ENV['MT_NO_PLUGINS'] = '1' # Work around stupid autoloading of plugins
@@ -628,6 +639,7 @@ class CICPHashTest < Minitest::Test
     def test_slice
       assert_equal(CICPHash[:AB=>1, 'CD'=>2, '3'=>4], @fh.slice(:AB, 'CD', '3'))
       assert_equal(CICPHash[:AB=>1, 'CD'=>2], @fh.slice(:AB, 'CD'))
+      assert_equal(CICPHash[], @fh.slice(:BA, 'DC'))
       assert_equal(1, @fh.slice(:AB, 'CD')['AB'])
     end
 

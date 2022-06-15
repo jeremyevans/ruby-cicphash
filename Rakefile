@@ -27,3 +27,9 @@ desc "Run tests"
 task :default do
   sh %{#{FileUtils::RUBY} #{"-w" if RUBY_VERSION >= '3'} test/test_cicphash.rb}
 end
+
+desc "Run tests with coverage"
+task :test_cov do
+  ENV['COVERAGE'] = '1'
+  sh "#{FileUtils::RUBY} test/test_cicphash.rb"
+end
