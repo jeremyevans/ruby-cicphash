@@ -1,5 +1,6 @@
 require 'rake'
 require 'rake/clean'
+require "rdoc/task"
 
 RDOC_DEFAULT_OPTS = ["--quiet", "--line-numbers", "--inline-source", '--title', 'cicphash: Case Insensitive Case Preserving Hash']
 
@@ -9,18 +10,9 @@ begin
 rescue Gem::LoadError
 end
 
-rdoc_task_class = begin
-  require "rdoc/task"
-  RDOC_DEFAULT_OPTS.concat(['-f', 'hanna'])
-  RDoc::Task
-rescue LoadError
-  require "rake/rdoctask"
-  Rake::RDocTask
-end
-
 RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'README.rdoc']
 
-rdoc_task_class.new do |rdoc|
+RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
   rdoc.options += RDOC_OPTS
   rdoc.rdoc_files.add %w"cicphash.rb README.rdoc CHANGELOG MIT-LICENSE"
