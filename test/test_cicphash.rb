@@ -340,18 +340,19 @@ class CICPHashTest < Minitest::Test
     assert_equal Hash[:ab,2], @h
     assert_equal Hash['AB',2], @h.update({'AB'=>2})
     assert_equal Hash['AB',2], @h
-    assert_equal Hash[:aB,3,4,5], @h.update(:aB=>3, 4=>5) do |k,ov,nv| 
-      asset_equal :aB, k
-      asset_equal 2, ov
-      asset_equal 3, nv
-    end
-    assert_equal Hash[:aB,3,4,5], @h
+    assert_equal Hash[:aB,6,4,5], @h.update(:aB=>3, 4=>5){|k,ov,nv| 
+      assert_equal :aB, k
+      assert_equal 2, ov
+      assert_equal 3, nv
+      6
+    }
+    assert_equal Hash[:aB,6,4,5], @h
   end
   
   def test_rehash
     assert_equal @h, @h.rehash
     assert_equal @fh, @fh.rehash
-    x = 'BLAH'
+    x = 'BLAH'.dup
     @fh[x] = 23
     assert_equal CICPHash['AB'=>1, :cd=>2, 3=>4, 'BLAH'=>23], @fh
     assert_equal CICPHash['AB'=>1, :cd=>2, 3=>4, 'BLAH'=>23], @fh.rehash
