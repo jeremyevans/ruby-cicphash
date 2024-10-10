@@ -269,15 +269,25 @@ class CICPHashTest < Minitest::Test
   
   def test_inspect
     assert_equal '{}', CICPHash[].inspect
-    assert_equal '{1=>2}', CICPHash[1=>2].inspect
-    assert ['{:ab=>"CD", [:"3"]=>4}', '{[:"3"]=>4, :ab=>"CD"}'].include?(CICPHash[:ab=>'CD', [:'3']=>4].inspect)
+    if RUBY_VERSION >= '3.4'
+      assert_equal '{1 => 2}', CICPHash[1=>2].inspect
+      assert_equal '{ab: "CD", [:"3"] => 4}', CICPHash[:ab=>'CD', [:'3']=>4].inspect
+    else
+      assert_equal '{1=>2}', CICPHash[1=>2].inspect
+      assert ['{:ab=>"CD", [:"3"]=>4}', '{[:"3"]=>4, :ab=>"CD"}'].include?(CICPHash[:ab=>'CD', [:'3']=>4].inspect)
+    end
   end
   
   if RUBY_VERSION >= '1.9'
     def test_to_s
       assert_equal '{}', CICPHash[].to_s
-      assert_equal '{1=>2}', CICPHash[1=>2].to_s
-      assert_equal '{:ab=>"CD", [:"3"]=>4}', CICPHash[:ab=>'CD', [:'3']=>4].to_s
+      if RUBY_VERSION >= '3.4'
+        assert_equal '{1 => 2}', CICPHash[1=>2].to_s
+        assert_equal '{ab: "CD", [:"3"] => 4}', CICPHash[:ab=>'CD', [:'3']=>4].to_s
+      else
+        assert_equal '{1=>2}', CICPHash[1=>2].to_s
+        assert_equal '{:ab=>"CD", [:"3"]=>4}', CICPHash[:ab=>'CD', [:'3']=>4].to_s
+      end
     end
   else
     def test_to_s
