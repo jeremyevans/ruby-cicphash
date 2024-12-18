@@ -25,7 +25,7 @@ end
 
 desc "Run tests"
 task :default do
-  sh %{#{FileUtils::RUBY} #{"-w" if RUBY_VERSION >= '3'} test/test_cicphash.rb}
+  sh %{#{FileUtils::RUBY} #{"-w" if RUBY_VERSION >= '3'} #{'-W:strict_unused_block' if RUBY_VERSION >= '3.4'} test/test_cicphash.rb}
 end
 
 desc "Run tests with coverage"
