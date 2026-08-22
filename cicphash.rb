@@ -141,9 +141,9 @@ class CICPHash
     elsif default.length == 1
       default.first
     else
-      # :nocov:
+      # simplecov:disable
       error_class = RUBY_VERSION < '1.9' ? IndexError : KeyError
-      # :nocov:
+      # simplecov:enable
       raise error_class, "key not found"
     end
   end
@@ -165,7 +165,7 @@ class CICPHash
       @name_hash[@hash.key(value)]
     end
 
-  # :nocov:
+  # simplecov:disable
     if RUBY_VERSION < '3'
       alias index key
     end
@@ -173,7 +173,7 @@ class CICPHash
     def index(value)
       @name_hash[@hash.index(value)]
     end
-  # :nocov:
+  # simplecov:enable
   end
   
   def inspect
@@ -242,14 +242,14 @@ class CICPHash
       each{|key, value| hash[key] = value if yield(key, value)}
       hash 
     end
-  # :nocov:
+  # simplecov:disable
   else
     def select
       array = []
       each{|key, value| array << [key, value] if yield(key, value)}
       array
     end
-  # :nocov:
+  # simplecov:enable
   end
   
   def shift
@@ -276,12 +276,12 @@ class CICPHash
   
   if RUBY_VERSION >= '1.9'
     alias to_s inspect
-  # :nocov:
+  # simplecov:disable
   else
     def to_s
       to_a.join
     end
-  # :nocov:
+  # simplecov:enable
   end
   
   def update(hash)
@@ -359,22 +359,22 @@ class CICPHash
       end
       self if mod
     end
-  # :nocov:
+  # simplecov:disable
   else
     alias indexes values_at
     alias indices values_at
-  # :nocov:
+  # simplecov:enable
   end
 
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '2.0'
-  # :nocov:
+  # simplecov:enable
     alias to_h to_hash
   end
   
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '2.3'
-  # :nocov:
+  # simplecov:enable
     def >(other)
       to_hash > other.to_hash
     end
@@ -410,9 +410,9 @@ class CICPHash
     end
   end
 
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '2.4'
-  # :nocov:
+  # simplecov:enable
     def compact
       hash = dup
       hash.compact!
@@ -433,9 +433,9 @@ class CICPHash
     end
   end
 
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '2.5'
-  # :nocov:
+  # simplecov:enable
     def slice(*a)
       h = self.class.new
       a.each{|k| h[k] = self[k] if has_key?(k)}
@@ -451,23 +451,23 @@ class CICPHash
     end
   end
 
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '2.6'
-  # :nocov:
+  # simplecov:enable
     alias filter! select!
   end
 
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '2.7'
-  # :nocov:
+  # simplecov:enable
     def deconstruct_keys(keys)
       to_hash
     end
   end
 
-  # :nocov:
+  # simplecov:disable
   if RUBY_VERSION >= '3.0'
-  # :nocov:
+  # simplecov:enable
     def except(*a)
       h = dup
       a.each{|k| h.delete(k)}
