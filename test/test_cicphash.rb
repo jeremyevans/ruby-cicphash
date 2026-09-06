@@ -26,7 +26,7 @@ class CICPHashTest < Minitest::Test
     cicphash_methods = CICPHash.public_instance_methods.sort
     hash_methods = Hash.public_instance_methods.sort
     assert_empty(cicphash_methods - hash_methods)
-    if defined?(JRUBY_VERSION) && JRUBY_VERSION >= '9.4'
+    if defined?(JRUBY_VERSION) && JRUBY_VERSION.to_r >= Rational('9.4') && JRUBY_VERSION.to_r < Rational(10)
       hash_methods -= [:index, :ruby2_keywords_hash, :ruby2_keywords_hash?]
     end
     assert_empty(hash_methods - cicphash_methods) 
